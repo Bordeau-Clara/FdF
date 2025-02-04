@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/04 14:17:37 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:07:44 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ void	ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y, t_point 
 	int	color1;
 	int	color2;
 
-	if (coordinate.map[y][x + 1] != 0)
+	if (coordinate.map[y][x + 1].z != 0)
 		color2 = 0x00FF0000;
 	else
 		color2 = 0x000000FF;
-	if (coordinate.map[y][x] != 0)
+	if (coordinate.map[y][x].z != 0)
 		color1 = 0x00FF0000;
 	else
 		color1 = 0x000000FF;
@@ -141,7 +141,7 @@ void	ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y, t_point 
 	{
 		nextx.step = point.step;
 		nextx.x = x2D(x + 1, y, nextx.step);
-		nextx.y = y2D(x + 1, y, coordinate.map[y][x + 1], nextx.step);
+		nextx.y = y2D(x + 1, y, coordinate.map[y][x + 1].z, nextx.step);
 		ft_draw_line(img, point.x, point.y, nextx.x, nextx.y, color1, color2);
 		ft_draw_square(img, coordinate, x + 1, y, nextx);
 	}
@@ -149,7 +149,7 @@ void	ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y, t_point 
 	{
 		nexty.step = point.step;
 		nexty.x = x2D(x, y + 1, nexty.step);
-		nexty.y = y2D(x, y + 1, coordinate.map[y + 1][x], nexty.step);
+		nexty.y = y2D(x, y + 1, coordinate.map[y + 1][x].z, nexty.step);
 		ft_draw_line(img, point.x, point.y, nexty.x, nexty.y, color1, color2);
 		ft_draw_square(img, coordinate, x, y + 1, nexty);
 	}
@@ -176,7 +176,7 @@ int	main(int ac, char **av)
 	float angle = M_PI / 6;
 	point.step = 20;
 	point.x = (point.step * (x * cos(angle) - y * cos(angle))) + 200;
-	point.y = (point.step * (x * sin(angle) + y * sin(angle) - (coordinate.map)[y][x])) + 300;
+	point.y = (point.step * (x * sin(angle) + y * sin(angle) - (coordinate.map)[y][x].z)) + 300;
 	int occurencex = coordinate.maxx;
 	int occurencey = coordinate.maxy;
 	printf("occurencex is %d, occurencey is %d\n", occurencex, occurencey);

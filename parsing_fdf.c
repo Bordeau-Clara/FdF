@@ -6,7 +6,7 @@
 /*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/04 12:32:40 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:06:14 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ t_coordinate	fill_coordinate(t_list *lst)
 	int		j;
 	int		k;
 
-	coordinate.map = ft_calloc(ft_lstsize(lst), sizeof(int *));
+	coordinate.map = ft_calloc(ft_lstsize(lst), sizeof(t_z *));
 	coordinate.maxy = ft_lstsize(lst);
 	coordinate.maxx = count_words(lst->s, " \n");
 	i = 0;
 	while (lst)
 	{
-		(coordinate.map)[i] = malloc(count_words(lst->s, " \n") * sizeof(int));
+		(coordinate.map)[i] = malloc(count_words(lst->s, " \n") * sizeof(t_z));
 		j = 0;
 		k = 0;
 		while (j < count_words(lst->s, " \n"))
 		{
-			(coordinate.map)[i][j] = ft_atoi(&(lst->s)[k]);
+			(coordinate.map)[i][j].z = ft_atoi(&(lst->s)[k]);
 			while (ft_isdigit((lst->s)[k]))
 				k++;
 			while ((lst->s)[k] == ' ' || (lst->s)[k] == '\n')
@@ -85,7 +85,7 @@ void	liberator_int_tab(int **tab, int line)
 	free(tab);
 }
 
-void	print_int_tab(int **tab, int y, int x)
+void	print_int_tab(t_z **tab, int y, int x)
 {
 	int	i;
 	int	j;
@@ -96,7 +96,7 @@ void	print_int_tab(int **tab, int y, int x)
 		j = 0;
 		while (j < x)
 		{
-			printf("%2d ", tab[i][j]);
+			printf("%2d ", tab[i][j].z);
 			j++;
 		}
 		printf("\n");

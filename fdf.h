@@ -16,18 +16,19 @@ typedef struct  s_data
         int     endian;
 }       t_data;
 
-typedef struct s_coordinate
-{
-	int	**map;
-	int	maxx;
-	int	maxy;
-}	t_coordinate;
-
 typedef struct	s_z
 {
 	int	z;
 	int	color;
 }	t_z;
+
+typedef struct s_coordinate
+{
+	t_z	**map;
+	int	maxx;
+	int	maxy;
+}	t_coordinate;
+
 typedef struct	s_point
 {
 	float	x;
@@ -46,7 +47,7 @@ typedef struct	s_rgb
 }	t_rgb;
 
 void    liberator_int_tab(int **tab, int line);
-void    print_int_tab(int **tab, int y, int x);
+void	print_int_tab(t_z **tab, int y, int x);
 t_coordinate	fill_coordinate(t_list *lst);
 int      count_words(const char *s, char *c);
 t_coordinate    dup_map(char *file);
