@@ -6,7 +6,7 @@
 /*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/05 09:40:32 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:25:41 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_coordinate	fill_coordinate(t_list *lst)
 			(coordinate.map)[i][j].z = ft_atoi(&(lst->s)[k]);
 			while (ft_isdigit((lst->s)[k]))
 				k++;
+
 			if(lst->s[k] == ',')
 			{
 				k += 3;
@@ -98,7 +99,7 @@ t_coordinate	fill_coordinate(t_list *lst)
 	return (coordinate);
 }
 
-void	liberator_int_tab(int **tab, int line)
+void	liberator_int_tab(t_z **tab, int line)
 {
 	int	i;
 

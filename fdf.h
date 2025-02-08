@@ -14,6 +14,9 @@
 # define KEY_D           100
 # define KEY_Q           113
 # define KEY_E           101
+# define KEY_Z           122
+# define KEY_X           120
+# define KEY_C           99
 # define KEY_UP          65362
 # define KEY_DOWN        65364
 # define KEY_LEFT        65361
@@ -72,6 +75,12 @@ typedef	struct s_angle
 	float	z;
 }	t_angle;
 
+typedef struct	s_offset
+{
+	int	x;
+	int	y;
+}	t_offset;
+
 typedef struct  s_data
 {
 	void    *img;
@@ -85,8 +94,7 @@ typedef struct  s_data
 	t_coordinate	coordinate;
 	int		step;
 	t_angle	angle;
-	int	offsetx;
-	int	offsety;
+	t_offset	offset;
 	int	translatex;
 	int	translatey;
 }       t_data;
@@ -106,13 +114,15 @@ typedef struct	s_rgb
 	int	b;
 }	t_rgb;
 
-void    liberator_int_tab(int **tab, int line);
-void	print_int_tab(t_z **tab, int y, int x);
+void			liberator_int_tab(t_z **tab, int line);
+void			print_int_tab(t_z **tab, int y, int x);
 t_coordinate	fill_coordinate(t_list *lst);
-int      count_words(const char *s, char *c);
-t_coordinate    dup_map(char *file);
+int				count_words(const char *s, char *c);
+t_coordinate	dup_map(char *file);
 
 int				key_hook(int keycode, t_data *img);
+int 			mouse_press(int button, int x, int y, t_data *fdf);
+void			change_base_color(t_data *fdf, int base, int final);
 
-void    ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y);
-void ft_draw_line(t_data *data, int x1, int y1, int x2, int y2, int color1, int color2);
+void			ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y);
+void			ft_draw_line(t_data *data, int x1, int y1, int x2, int y2, int color1, int color2);
