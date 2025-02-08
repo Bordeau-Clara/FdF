@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/08 09:05:29 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:17:37 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,29 +112,28 @@ void ft_draw_line(t_data *data, int x1, int y1, int x2, int y2, int color1, int 
 float	x2D(float x, float y, int step)
 {
 	float angle = M_PI / 6;
-	float sx = 1000 + (step * ((x * cos(angle) - y * cos(angle))));
+	float sx = 200 + (step * ((x * cos(angle) - y * cos(angle))));
 	return (sx);
 }
 
 float	y2D(float x, float y, float z, int step)
 {
 	float angle = M_PI / 6;
-	float sy = 0 + (step * ((x * sin(angle) + y * sin(angle) - z)));
+	float sy = 300 + (step * ((x * sin(angle) + y * sin(angle) - z)));
 	return (sy);
 }
-
-/*void	ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y, t_point point)
+void	ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y, t_point point)
 {
 	t_point	nextx;
 	t_point	nexty;
 	int	color1;
 	int	color2;
 
-	if (coordinate.map[y][x + 1].z != 0)
+	if (coordinate.map[y][x + 1] != 0)
 		color2 = 0x00FF0000;
 	else
 		color2 = 0x000000FF;
-	if (coordinate.map[y][x].z != 0)
+	if (coordinate.map[y][x] != 0)
 		color1 = 0x00FF0000;
 	else
 		color1 = 0x000000FF;
@@ -142,7 +141,7 @@ float	y2D(float x, float y, float z, int step)
 	{
 		nextx.step = point.step;
 		nextx.x = x2D(x + 1, y, nextx.step);
-		nextx.y = y2D(x + 1, y, coordinate.map[y][x + 1].z, nextx.step);
+		nextx.y = y2D(x + 1, y, coordinate.map[y][x + 1], nextx.step);
 		ft_draw_line(img, point.x, point.y, nextx.x, nextx.y, color1, color2);
 		ft_draw_square(img, coordinate, x + 1, y, nextx);
 	}
@@ -150,102 +149,42 @@ float	y2D(float x, float y, float z, int step)
 	{
 		nexty.step = point.step;
 		nexty.x = x2D(x, y + 1, nexty.step);
-		nexty.y = y2D(x, y + 1, coordinate.map[y + 1][x].z, nexty.step);
+		nexty.y = y2D(x, y + 1, coordinate.map[y + 1][x], nexty.step);
 		ft_draw_line(img, point.x, point.y, nexty.x, nexty.y, color1, color2);
 		ft_draw_square(img, coordinate, x, y + 1, nexty);
-	}
-}*/
-t_point project_iso_bonus(t_data fdf, int x, int y)
-{
-    t_point result;
-    double x_rot, y_rot, z_rot;
-    double x_temp, y_temp, z_temp;
-    
-    // Coordonnées initiales
-    double x0 = x;
-    double y0 = y;
-    double z0 = fdf.coordinate.map[y][x].z;
-
-    // Rotation autour de l'axe X (pitch = π/2)
-    y_temp = cos(fdf.angle.x) * y0 - sin(fdf.angle.x) * z0;
-    z_temp = sin(fdf.angle.x) * y0 + cos(fdf.angle.x) * z0;
-    y_rot = y_temp;
-    z_rot = z_temp;
-
-    // Rotation autour de l'axe Y (yaw = 0)
-    x_temp = cos(fdf.angle.y) * x0 + sin(fdf.angle.y) * z_rot;
-    z_temp = -sin(fdf.angle.y) * x0 + cos(fdf.angle.y) * z_rot;
-    x_rot = x_temp;
-    z_rot = z_temp;
-
-    // Rotation autour de l'axe Z (roll = 0)
-    x_temp = cos(fdf.angle.z) * x_rot - sin(fdf.angle.z) * y_rot;
-    y_temp = sin(fdf.angle.z) * x_rot + cos(fdf.angle.z) * y_rot;
-    x_rot = x_temp;
-    y_rot = y_temp;
-
-    // Dans une vue de dessus, on peut décider de simplement utiliser les coordonnées tournées
-    result.x = fdf.translatex + fdf.offsetx + (fdf.step * x_rot);
-    result.y = fdf.translatey + fdf.offsety + (fdf.step * y_rot);
-    result.color = fdf.coordinate.map[y][x].color;
-
-    return result;
-}
-
-void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
-{
-	t_point	next;
-	t_point	current;
-	int	color1;
-	int	color2;
-
-
-	while(x < coordinate.maxx)
-	{
-		y = 0;
-		while (y < coordinate.maxy)
-		{
-			current.step = fdf->step;
-			current.x = x2D(x, y, current.step);
-			current.y = y2D(x, y, coordinate.map[y][x].z, current.step);
-			if (x < coordinate.maxx - 1)
-			{
-				next.step = current.step;
-				next.x = x2D(x + 1, y, next.step);
-				next.y = y2D(x + 1, y, coordinate.map[y][x + 1].z, next.step);
-				color2 = coordinate.map[y][x + 1].color;
-				color1 = coordinate.map[y][x].color;
-				ft_draw_line(fdf, current.x, current.y, next.x, next.y, color1, color2);
-			}
-			if (y < coordinate.maxy - 1)
-			{
-				next.step = current.step;
-				next.x = x2D(x, y + 1, next.step);
-				next.y = y2D(x, y + 1, coordinate.map[y + 1][x].z, next.step);
-				color2 = coordinate.map[y + 1][x].color;
-				color1 = coordinate.map[y][x].color;
-				ft_draw_line(fdf, current.x, current.y, next.x, next.y, color1, color2);
-			}
-			y++;
-		}
-		x++;
 	}
 }
 
 int	main(int ac, char **av)
 {
-	t_data	fdf;
+	void	*mlx;
+	void	*mlx_win;
+	t_data	img;
+	t_coordinate	coordinate;
+	t_point	point;
 
 	(void)ac;
-	fdf.coordinate = dup_map(av[1]);
-	fdf.mlx = mlx_init();
-	fdf.mlx_win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
-	fdf.img = mlx_new_image(fdf.mlx, 1920, 1080);
-	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.line_lenght, &fdf.endian);
+	coordinate = dup_map(av[1]);
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Square");
+	img.img = mlx_new_image(mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_lenght, &img.endian);
 	
 
-	fdf.step = 42;
-	mlx_hook(fdf.mlx_win, 2, 1L << 0, key_hook, &fdf);
-	mlx_loop(fdf.mlx);
-	//liberator_int_tab(coordinate.map, coordinate.maxy);
+	int x = 0;
+	int y = 0;
+	float angle = M_PI / 6;
+	point.step = 20;
+	point.x = (point.step * (x * cos(angle) - y * cos(angle))) + 200;
+	point.y = (point.step * (x * sin(angle) + y * sin(angle) - (coordinate.map)[y][x])) + 300;
+	int occurencex = coordinate.maxx;
+	int occurencey = coordinate.maxy;
+	printf("occurencex is %d, occurencey is %d\n", occurencex, occurencey);
+	/*for (int i = 0; i < 50; i++)
+	{
+		ft_draw_line(&img, 50, 50 + i, 500, 50 + i, 0x000000FF, 0x00FF0000);
+	}*/
+	ft_draw_square(&img, coordinate, x, y, point);
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	mlx_loop(mlx);
 }

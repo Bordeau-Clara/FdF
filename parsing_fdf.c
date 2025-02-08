@@ -6,7 +6,7 @@
 /*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/04 15:06:14 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:40:32 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ int	count_words(const char *s, char *c)
 	return (words);
 }
 
+static int	isbase(char c, char *base)
+{
+	int	i;
+
+	i = 0;
+	while (i < base[i])
+	{
+		if (c == base[i])
+			return (i);
+	i++;
+	}
+	return (-1);
+}
+
 t_coordinate	fill_coordinate(t_list *lst)
 {
 	t_coordinate	coordinate;
@@ -61,6 +75,18 @@ t_coordinate	fill_coordinate(t_list *lst)
 		{
 			(coordinate.map)[i][j].z = ft_atoi(&(lst->s)[k]);
 			while (ft_isdigit((lst->s)[k]))
+				k++;
+			if(lst->s[k] == ',')
+			{
+				k += 3;
+				coordinate.map[i][j].color = ft_atoi_base(&lst->s[k], "0123456789ABCDEF");
+				coordinate.map[i][j].colorh = ft_atoi_base(&lst->s[k], "0123456789abcdef");
+				if (coordinate.map[i][j].colorh > coordinate.map[i][j].color)
+					coordinate.map[i][j].color = coordinate.map[i][j].colorh;
+			}
+			else
+				coordinate.map[i][j].color = 0x0FFFFF;
+			while (isbase(lst->s[k], "0123456789ABCDEFabcdef") != -1)
 				k++;
 			while ((lst->s)[k] == ' ' || (lst->s)[k] == '\n')
 				k++;
