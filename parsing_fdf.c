@@ -6,7 +6,7 @@
 /*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/08 12:25:41 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/08 14:18:44 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,38 +55,41 @@ static int	isbase(char c, char *base)
 	return (-1);
 }
 
-t_coordinate	fill_coordinate(t_list *lst)
+void	fill_coordinate(t_list *lst, t_data *fdf)
 {
-	t_coordinate	coordinate;
+	//t_coordinate	coordinate;
 	int		i;
 	int		j;
 	int		k;
 
-	coordinate.map = ft_calloc(ft_lstsize(lst), sizeof(t_z *));
-	coordinate.maxy = ft_lstsize(lst);
-	coordinate.maxx = count_words(lst->s, " \n");
+	fdf->coordinate.map = ft_calloc(ft_lstsize(lst), sizeof(t_z *));
+	fdf->coordinate.maxy = ft_lstsize(lst);
+	fdf->coordinate.maxx = count_words(lst->s, " \n");
 	i = 0;
 	while (lst)
 	{
-		(coordinate.map)[i] = malloc(count_words(lst->s, " \n") * sizeof(t_z));
+		(fdf->coordinate.map)[i] = malloc(count_words(lst->s, " \n") * sizeof(t_z));
 		j = 0;
 		k = 0;
 		while (j < count_words(lst->s, " \n"))
 		{
-			(coordinate.map)[i][j].z = ft_atoi(&(lst->s)[k]);
+			(fdf->coordinate.map)[i][j].z = ft_atoi(&(lst->s)[k]);
 			while (ft_isdigit((lst->s)[k]))
 				k++;
-
+			if ((!i && !j) || (fdf->coordinate.map[i][j].z > fdf->coordinate.maxz))
+				fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
+			if ((!i && !j) || (fdf->coordinate.map[i][j].z < fdf->coordinate.minz))
+				fdf->coordinate.minz = fdf->coordinate.map[i][j].z;
 			if(lst->s[k] == ',')
 			{
 				k += 3;
-				coordinate.map[i][j].color = ft_atoi_base(&lst->s[k], "0123456789ABCDEF");
-				coordinate.map[i][j].colorh = ft_atoi_base(&lst->s[k], "0123456789abcdef");
-				if (coordinate.map[i][j].colorh > coordinate.map[i][j].color)
-					coordinate.map[i][j].color = coordinate.map[i][j].colorh;
+				fdf->coordinate.map[i][j].color = ft_atoi_base(&lst->s[k], "0123456789ABCDEF");
+				fdf->coordinate.map[i][j].colorh = ft_atoi_base(&lst->s[k], "0123456789abcdef");
+				if (fdf->coordinate.map[i][j].colorh > fdf->coordinate.map[i][j].color)
+					fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
 			}
 			else
-				coordinate.map[i][j].color = 0x0FFFFF;
+				fdf->coordinate.map[i][j].color = 0x0FFFFF;
 			while (isbase(lst->s[k], "0123456789ABCDEFabcdef") != -1)
 				k++;
 			while ((lst->s)[k] == ' ' || (lst->s)[k] == '\n')
@@ -96,7 +99,6 @@ t_coordinate	fill_coordinate(t_list *lst)
 		i++;
 		lst = lst->next;
 	}
-	return (coordinate);
 }
 
 void	liberator_int_tab(t_z **tab, int line)
@@ -131,9 +133,9 @@ void	print_int_tab(t_z **tab, int y, int x)
 	}
 }
 
-t_coordinate	dup_map(char *file)
+void	dup_map(char *file, t_data *fdf)
 {
-	t_coordinate	coordinate;
+	//t_coordinate	coordinate;
 	char	*s;
 	int		fd;
 	t_list	*lst;
@@ -147,10 +149,10 @@ t_coordinate	dup_map(char *file)
 			break ;
 		ft_lstadd_back(&lst, ft_lstnew(s));
 	}
-	coordinate = fill_coordinate(lst);
-	print_int_tab(coordinate.map, ft_lstsize(lst), coordinate.maxx);
+	fill_coordinate(lst, fdf);
+	print_int_tab(fdf->coordinate.map, ft_lstsize(lst), fdf->coordinate.maxx);
 //	liberator_int_tab(coordinate.map, ft_lstsize(lst));
 	close(fd);
 	ft_lstclear(&lst, free);
-	return (coordinate);
+	//return (coordinate);
 }

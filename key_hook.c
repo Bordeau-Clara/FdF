@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/08 12:25:56 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/08 14:27:27 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ int	key_hook(int keycode, t_data *fdf)
 	if (keycode == KEY_1) //projection isometrique classique
 	{
 		fdf->angle.x = PI / 4;
-		fdf->angle.y = PI / 6;
+		fdf->angle.y = - PI / 6;
 		fdf->angle.z = 0;
 		put_new_img(fdf);
 	}
 	if (keycode == KEY_2) //projection isometrique classque avec rotation de l'axe z
 	{
 		fdf->angle.x = PI / 4;
-		fdf->angle.y = PI / 6;
+		fdf->angle.y = - PI / 6;
 		fdf->angle.z = - PI / 8;
 		put_new_img(fdf);
 	}
@@ -123,11 +123,16 @@ int	key_hook(int keycode, t_data *fdf)
 		fdf->angle.z = 0;
 		put_new_img(fdf);
 	}
-	/*if (keycode == KEY_Z)
+	if (keycode == KEY_Z)
 	{
 		change_base_color(fdf, 0x00000000, 0x00FFFFFF);
 		put_new_img(fdf);
-	}*/
+	}
+	if (keycode == KEY_X)
+	{
+		change_base_color(fdf, 0x00FF0000, 0x00FFFFFF);
+		put_new_img(fdf);
+	}
 	return (0);
 }
 

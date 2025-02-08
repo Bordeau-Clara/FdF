@@ -4,7 +4,7 @@ FLAGS = -Wall -Wextra -Werror
 MFLAGS = -lmlx -lXext -lX11 -lm -g3
 HEADER = pipex.h
 SRC = pixel.c parsing_fdf.c gnl/get_next_line.c gnl/get_next_line_utils.c \
-	  key_hook.c
+	  key_hook.c colors.c
 
 OBJ = $(SRC:.c=.o)
 

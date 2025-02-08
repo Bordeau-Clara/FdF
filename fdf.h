@@ -116,9 +116,9 @@ typedef struct	s_rgb
 
 void			liberator_int_tab(t_z **tab, int line);
 void			print_int_tab(t_z **tab, int y, int x);
-t_coordinate	fill_coordinate(t_list *lst);
+void	fill_coordinate(t_list *lst, t_data *fdf);
 int				count_words(const char *s, char *c);
-t_coordinate	dup_map(char *file);
+void	dup_map(char *file, t_data *fdf);
 
 int				key_hook(int keycode, t_data *img);
 int 			mouse_press(int button, int x, int y, t_data *fdf);

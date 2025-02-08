@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/08 10:57:05 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/08 14:21:46 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,12 +223,17 @@ t_point	project_3d_to_2d(int x, int y, int z, t_data fdf)
     return result;
 }
 
+int	distance(int a, int b)
+{
+	return ((a + b) / 2);
+}
+
 t_offset	set_offset(t_data fdf)
 {
 	t_offset	offset;
 	t_point		middle;
 	
-	middle = project_3d_to_2d(fdf.coordinate.maxx / 2, fdf.coordinate.maxy / 2, 0, fdf);
+	middle = project_3d_to_2d(fdf.coordinate.maxx / 2, fdf.coordinate.maxy / 2, distance(fdf.coordinate.maxz, fdf.coordinate.minz), fdf);
 	offset.x = 960 - middle.x;
 	offset.y = 540 - middle.y;
 	//ft_draw_line(&fdf, 0, 0, middle.x + offset.x, middle.y + offset.y, 0x0, 0xFFFFFF);
@@ -268,7 +273,7 @@ int	main(int ac, char **av)
 	t_data	fdf;
 
 	(void)ac;
-	fdf.coordinate = dup_map(av[1]);
+	dup_map(av[1], &fdf);
 	fdf.mlx = mlx_init();
 	fdf.mlx_win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
 	fdf.img = mlx_new_image(fdf.mlx, 1920, 1080);
