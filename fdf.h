@@ -1,9 +1,9 @@
 #ifndef FDF_H
 # define FDF_H
 
-#include "mlx.h"
+#include "minilibx-linux/mlx.h"
 #include <math.h>
-#include "gnl/get_next_line.h"
+#include "Libft/get_next_line.h"
 #include "Libft/libft.h"
 #include <fcntl.h>
 #include <stdlib.h>
@@ -93,7 +93,7 @@ typedef struct	s_offset
 typedef struct  s_data
 {
 	void			*img;
-	void			*img_instruct;
+//	void			*img_instruct;
 	char			*addr;
 	int				bits_per_pixel;
 	int				line_lenght;

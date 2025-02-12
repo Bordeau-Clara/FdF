@@ -1,23 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_window.c                                      :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 08:52:28 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/01/30 09:26:59 by cbordeau         ###   ########.fr       */
+/*   Created: 2024/11/23 18:09:16 by cbordeau          #+#    #+#             */
+/*   Updated: 2024/12/04 11:13:35 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
+#include "get_next_line.h"
 
-int	 main()
+char	*ft_strdup_gnl(char *s)
 {
-	void	*mlx;
-	void	*mlx_win;
+	char	*new;
+	size_t	i;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	mlx_loop(mlx);
+	i = 0;
+	while (s[i])
+		i++;
+	new = (char *)malloc((i + 1) * sizeof(char));
+	if (new == NULL)
+	{
+		free(s);
+		return (NULL);
+	}
+	i = 0;
+	while (s[i])
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }

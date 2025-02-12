@@ -10,13 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "lib.h"
-//#include "libft/get_next_line.h"
-#include "Libft/libft.h"
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "fdf.h"
+#include "../fdf.h"
 
 int	count_words(const char *s, char *c)
 {

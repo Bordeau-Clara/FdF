@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "mlx.h"
-#include <math.h>
-#include <stdlib.h>
+#include "../fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
