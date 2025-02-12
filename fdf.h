@@ -1,3 +1,6 @@
+#ifndef FDF_H
+# define FDF_H
+
 #include "mlx.h"
 #include <math.h>
 #include "gnl/get_next_line.h"
@@ -89,29 +92,30 @@ typedef struct	s_offset
 
 typedef struct  s_data
 {
-	void    *img;
-	char    *addr;
-	int     bits_per_pixel;
-	int     line_lenght;
-	int     endian;
-	void	*mlx;
-	void	*mlx_win;
+	void			*img;
+	void			*img_instruct;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_lenght;
+	int				endian;
+	void			*mlx;
+	void			*mlx_win;
 
 	t_coordinate	coordinate;
 	t_coordinate	save;
-	int		step;
-	t_angle	angle;
-	t_offset	offset;
-	int	translatex;
-	int	translatey;
-}       t_data;
+	int				step;
+	t_angle			angle;
+	t_offset		offset;
+	int				translatex;
+	int				translatey;
+}	t_data;
 
 
 typedef struct	s_point
 {
 	float	x;
 	float	y;
-	int	color;
+	int		color;
 }	t_point;
 
 typedef struct	s_rgb
@@ -130,17 +134,17 @@ typedef struct	s_vector
 
 void			liberator_int_tab(t_z **tab, int line);
 void			print_int_tab(t_z **tab, int y, int x);
-void	fill_coordinate(t_list *lst, t_data *fdf);
+void			fill_coordinate(t_list *lst, t_data *fdf);
 int				count_words(const char *s, char *c);
-void	dup_map(char *file, t_data *fdf);
+void			dup_map(char *file, t_data *fdf);
 t_coordinate	dup_fdf(t_coordinate coordinate);
 
 int				key_hook(int keycode, t_data *img);
 int 			mouse_press(int button, int x, int y, t_data *fdf);
 int				exit_fdf(t_data *fdf);
-//void			change_base_color(t_data *fdf, int base, int up);
 void			change_color(t_data *fdf, int base, int final);
 void			move_z(t_data *fdf, int mode);
 
 void			ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y);
 void 			ft_draw_line(t_data *data, t_point current, t_point next);
+#endif

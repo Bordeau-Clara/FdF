@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/12 10:57:48 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:30:49 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,8 @@ int	main(int ac, char **av)
 	fdf.mlx = mlx_init();
 	fdf.mlx_win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
 	fdf.img = mlx_new_image(fdf.mlx, 1920, 1080);
+	//fdf.img_instruct = mlx_new_image(fdf.mlx, 100, 100);
+	//mlx_put_image_to_window(fdf.mlx, fdf.mlx_win, fdf.img_instruct, 1820, 980);
 	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.line_lenght, &fdf.endian);
 	
 	fdf.step = 2;
