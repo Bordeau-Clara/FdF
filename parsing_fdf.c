@@ -6,7 +6,7 @@
 /*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/08 14:18:44 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:25:39 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	isbase(char c, char *base)
 
 void	fill_coordinate(t_list *lst, t_data *fdf)
 {
-	//t_coordinate	coordinate;
 	int		i;
 	int		j;
 	int		k;
@@ -80,7 +79,7 @@ void	fill_coordinate(t_list *lst, t_data *fdf)
 				fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
 			if ((!i && !j) || (fdf->coordinate.map[i][j].z < fdf->coordinate.minz))
 				fdf->coordinate.minz = fdf->coordinate.map[i][j].z;
-			if(lst->s[k] == ',')
+			if (lst->s[k] == ',')
 			{
 				k += 3;
 				fdf->coordinate.map[i][j].color = ft_atoi_base(&lst->s[k], "0123456789ABCDEF");
@@ -89,7 +88,7 @@ void	fill_coordinate(t_list *lst, t_data *fdf)
 					fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
 			}
 			else
-				fdf->coordinate.map[i][j].color = 0x0FFFFF;
+				fdf->coordinate.map[i][j].color = 0x810202;
 			while (isbase(lst->s[k], "0123456789ABCDEFabcdef") != -1)
 				k++;
 			while ((lst->s)[k] == ' ' || (lst->s)[k] == '\n')
@@ -150,7 +149,7 @@ void	dup_map(char *file, t_data *fdf)
 		ft_lstadd_back(&lst, ft_lstnew(s));
 	}
 	fill_coordinate(lst, fdf);
-	print_int_tab(fdf->coordinate.map, ft_lstsize(lst), fdf->coordinate.maxx);
+	//print_int_tab(fdf->coordinate.map, ft_lstsize(lst), fdf->coordinate.maxx);
 //	liberator_int_tab(coordinate.map, ft_lstsize(lst));
 	close(fd);
 	ft_lstclear(&lst, free);

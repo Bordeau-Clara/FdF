@@ -1,6 +1,6 @@
 CC = cc
 NAME = fdf
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror -g3
 MFLAGS = -lmlx -lXext -lX11 -lm -g3
 HEADER = pipex.h
 SRC = pixel.c parsing_fdf.c gnl/get_next_line.c gnl/get_next_line_utils.c \

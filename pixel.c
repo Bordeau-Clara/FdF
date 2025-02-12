@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/08 14:21:46 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:57:48 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	//printf("sx is %d, sy is %d\n", x, y);
-	if (x >= 0 && x < 1920 && y >= 0 && y < 1080)
+	if ((x >= 0 && x < 1920 && y >= 0 && y < 1080) && color != 0)
 	{
 	dst = data->addr + (y * data->line_lenght + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 	}
 }
 
@@ -36,45 +35,62 @@ int	interpolate_color(int color1, int color2, float t)
 	colora.r = (color1 >> 16) & 0xFF;
 	colora.g = (color1 >> 8) & 0xFF;
 	colora.b = color1 & 0xFF;
-
 	colorb.r = (color2 >> 16) & 0xFF;
 	colorb.g = (color2 >> 8) & 0xFF;
 	colorb.b = color2 & 0xFF;
-
 	color.r = (int)(colora.r + t *(colorb.r - colora.r));
 	color.g = (int)(colora.g + t *(colorb.g - colora.g));
 	color.b = (int)(colora.b + t *(colorb.b - colora.b));
-
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
 // Algorithme de Bresenham
-void ft_draw_line(t_data *data, int x1, int y1, int x2, int y2, int color1, int color2)
+void	ft_draw_line(t_data *data, t_point current, t_point next)
 {
-    int dx, dy, sx, sy, err, e2;
-    int	length = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2- y1));
-    int	step = 0;
+	int 	dx, dy, sx, sy, err, e2;
+	int		length;
+	int		step;
+	float	t;
+	int		color;
 
-    dx = abs(x2 - x1);
-    dy = abs(y2 - y1);
-    sx = (x1 < x2) ? 1 : -1;
-    sy = (y1 < y2) ? 1 : -1;
-    err = dx - dy;
-
-    while (1)
-    {
-	float t = (length == 0) ? 0 : (float)step / length;
-	int color = interpolate_color(color1, color2, t);
-        my_mlx_pixel_put(data, x1, y1, color);
-        if (x1 == x2 && y1 == y2)
-            break;
-        e2 = 2 * err;
-        if (e2 > -dy) { err -= dy; x1 += sx; }
-        if (e2 < dx) { err += dx; y1 += sy; }
-	step++;
-    }
-    my_mlx_pixel_put(data, x1, y1, color1);
-    my_mlx_pixel_put(data, x2, y2, color2);
+	step = 0;
+	length = sqrt((next.x - current.x) * (next.x - current.x) + (next.y - current.y) * (next.y - current.y));
+	dx = abs((int)next.x - (int)current.x);
+	dy = abs((int)next.y - (int)current.y);
+	if (current.x < next.x)
+		sx = 1;
+	else
+		sx = -1;
+	if (current.y < next.y)
+		sy = 1;
+	else
+		sy = -1;
+	err = dx - dy;
+	while (TRUE)
+	{
+		if (length == 0)
+			t = 0;
+		else
+			t = (float)step / length;
+		color = interpolate_color(current.color, next.color, t);
+		my_mlx_pixel_put(data, current.x, current.y, color);
+		if (current.x == next.x && current.y == next.y)
+			break ;
+		e2 = 2 * err;
+		if (e2 > -dy)
+		{
+			err -= dy;
+			current.x += sx;
+		}
+		if (e2 < dx)
+		{
+			err += dx;
+			current.y += sy;
+		}
+		step++;
+	}
+	my_mlx_pixel_put(data, current.x, current.y, current.color);
+	my_mlx_pixel_put(data, next.x, next.y, next.color);
 }
 
 //algo qui fonctionne
@@ -109,118 +125,41 @@ void ft_draw_line(t_data *data, int x1, int y1, int x2, int y2, int color1, int 
     }
 }*/
 
-float	x2D(float x, float y, int step)
+t_point	project_iso_bonus(t_data fdf, int x, int y)
 {
-	float angle = M_PI / 6;
-	float sx = 1000 + (step * ((x * cos(angle) - y * cos(angle))));
-	return (sx);
-}
+	t_point		result;
+	t_vector	rot;
+	float		temp;
 
-float	y2D(float x, float y, float z, int step)
-{
-	float angle = M_PI / 6;
-	float sy = 0 + (step * ((x * sin(angle) + y * sin(angle) - z)));
-	return (sy);
-}
-
-/*void	ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y, t_point point)
-{
-	t_point	nextx;
-	t_point	nexty;
-	int	color1;
-	int	color2;
-
-	if (coordinate.map[y][x + 1].z != 0)
-		color2 = 0x00FF0000;
-	else
-		color2 = 0x000000FF;
-	if (coordinate.map[y][x].z != 0)
-		color1 = 0x00FF0000;
-	else
-		color1 = 0x000000FF;
-	if (x < coordinate.maxx - 1)
-	{
-		nextx.step = point.step;
-		nextx.x = x2D(x + 1, y, nextx.step);
-		nextx.y = y2D(x + 1, y, coordinate.map[y][x + 1].z, nextx.step);
-		ft_draw_line(img, point.x, point.y, nextx.x, nextx.y, color1, color2);
-		ft_draw_square(img, coordinate, x + 1, y, nextx);
-	}
-	if (y < coordinate.maxy - 1)
-	{
-		nexty.step = point.step;
-		nexty.x = x2D(x, y + 1, nexty.step);
-		nexty.y = y2D(x, y + 1, coordinate.map[y + 1][x].z, nexty.step);
-		ft_draw_line(img, point.x, point.y, nexty.x, nexty.y, color1, color2);
-		ft_draw_square(img, coordinate, x, y + 1, nexty);
-	}
-}*/
-t_point project_iso_bonus(t_data fdf, int x, int y)
-{
-    t_point result;
-    double x_rot, y_rot, z_rot;
-    double x_temp, y_temp, z_temp;
-    
-    // Coordonnées initiales
-    double x0 = x;
-    double y0 = y;
-    double z0 = fdf.coordinate.map[y][x].z;
-
-    // Rotation autour de l'axe X (pitch = π/2)
-    y_temp = cos(fdf.angle.x) * y0 - sin(fdf.angle.x) * z0;
-    z_temp = sin(fdf.angle.x) * y0 + cos(fdf.angle.x) * z0;
-    y_rot = y_temp;
-    z_rot = z_temp;
-
-    // Rotation autour de l'axe Y (yaw = 0)
-    x_temp = cos(fdf.angle.y) * x0 + sin(fdf.angle.y) * z_rot;
-    z_temp = -sin(fdf.angle.y) * x0 + cos(fdf.angle.y) * z_rot;
-    x_rot = x_temp;
-    z_rot = z_temp;
-
-    // Rotation autour de l'axe Z (roll = 0)
-    x_temp = cos(fdf.angle.z) * x_rot - sin(fdf.angle.z) * y_rot;
-    y_temp = sin(fdf.angle.z) * x_rot + cos(fdf.angle.z) * y_rot;
-    x_rot = x_temp;
-    y_rot = y_temp;
-
-    // Dans une vue de dessus, on peut décider de simplement utiliser les coordonnées tournées
-    result.x = fdf.translatex + fdf.offset.x + (fdf.step * x_rot);
-    result.y = fdf.translatey + fdf.offset.y + (fdf.step * y_rot);
-    result.color = fdf.coordinate.map[y][x].color;
-
-    return result;
+	rot.y = fdf.angle.cosx * y - fdf.angle.sinx * fdf.coordinate.map[y][x].z;
+	rot.z = fdf.angle.sinx * y + fdf.angle.cosx * fdf.coordinate.map[y][x].z;
+	rot.x = (fdf.angle.cosy) * x + fdf.angle.siny * rot.z;
+	rot.z = -fdf.angle.siny * x + fdf.angle.cosy * rot.z;
+	temp = rot.x;
+	rot.x = fdf.angle.cosz * rot.x - fdf.angle.sinz * rot.y;
+	rot.y = fdf.angle.sinz * temp + fdf.angle.cosz * rot.y;
+	result.x = round(fdf.translatex + fdf.offset.x + (fdf.step * rot.x));
+	result.y = round(fdf.translatey + fdf.offset.y + (fdf.step * rot.y));
+	result.color = fdf.coordinate.map[y][x].color;
+	return (result);
 }
 
 t_point	project_3d_to_2d(int x, int y, int z, t_data fdf)
 {
-    t_point result;
-    double x_rot, y_rot, z_rot;
-    double x_temp, y_temp, z_temp;
+	t_point		result;
+	t_vector	rot;
+	float		temp;
 
-    // Rotation autour de X (Pitch)
-    y_temp = cos(fdf.angle.x) * y - sin(fdf.angle.x) * z;
-    z_temp = sin(fdf.angle.x) * y + cos(fdf.angle.x) * z;
-    y_rot = y_temp;
-    z_rot = z_temp;
-
-    // Rotation autour de Y (Yaw)
-    x_temp = cos(fdf.angle.y) * x + sin(fdf.angle.y) * z_rot;
-    z_temp = -sin(fdf.angle.y) * x + cos(fdf.angle.y) * z_rot;
-    x_rot = x_temp;
-    z_rot = z_temp;
-
-    // Rotation autour de Z (Roll)
-    x_temp = cos(fdf.angle.z) * x_rot - sin(fdf.angle.z) * y_rot;
-    y_temp = sin(fdf.angle.z) * x_rot + cos(fdf.angle.z) * y_rot;
-    x_rot = x_temp;
-    y_rot = y_temp;
-
-    // Projection 2D
-    result.x = (fdf.step * x_rot);
-    result.y = (fdf.step * y_rot);
-
-    return result;
+	rot.y = fdf.angle.cosx * y - fdf.angle.sinx * z;
+	rot.z = fdf.angle.sinx * y + fdf.angle.cosx * z;
+	rot.x = (fdf.angle.cosy) * x + fdf.angle.siny * rot.z;
+	rot.z = -fdf.angle.siny * x + fdf.angle.cosy * rot.z;
+	temp = rot.x;
+	rot.x = fdf.angle.cosz * rot.x - fdf.angle.sinz * rot.y;
+	rot.y = fdf.angle.sinz * temp + fdf.angle.cosz * rot.y;
+	result.x = (fdf.step * rot.x);
+	result.y = (fdf.step * rot.y);
+	return (result);
 }
 
 int	distance(int a, int b)
@@ -232,12 +171,21 @@ t_offset	set_offset(t_data fdf)
 {
 	t_offset	offset;
 	t_point		middle;
-	
+
 	middle = project_3d_to_2d(fdf.coordinate.maxx / 2, fdf.coordinate.maxy / 2, distance(fdf.coordinate.maxz, fdf.coordinate.minz), fdf);
-	offset.x = 960 - middle.x;
-	offset.y = 540 - middle.y;
-	//ft_draw_line(&fdf, 0, 0, middle.x + offset.x, middle.y + offset.y, 0x0, 0xFFFFFF);
+	offset.x = 960 - round(middle.x);
+	offset.y = 540 - round(middle.y);
 	return (offset);
+}
+
+void	set_angle(t_data *fdf)
+{
+	fdf->angle.cosx = cos(fdf->angle.x);
+	fdf->angle.sinx = sin(fdf->angle.x);
+	fdf->angle.cosy = cos(fdf->angle.y);
+	fdf->angle.siny = sin(fdf->angle.y);
+	fdf->angle.cosz = cos(fdf->angle.z);
+	fdf->angle.sinz = sin(fdf->angle.z);
 }
 
 void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
@@ -245,8 +193,9 @@ void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
 	t_point	next;
 	t_point	current;
 
+	set_angle(fdf);
 	fdf->offset = set_offset(*fdf);
-	while(x < coordinate.maxx)
+	while (x < coordinate.maxx)
 	{
 		y = 0;
 		while (y < coordinate.maxy)
@@ -255,17 +204,27 @@ void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
 			if (x < coordinate.maxx - 1)
 			{
 				next = project_iso_bonus(*fdf, x + 1, y);
-				ft_draw_line(fdf, current.x, current.y, next.x, next.y, current.color, next.color);
+				ft_draw_line(fdf, current, next);
 			}
 			if (y < coordinate.maxy - 1)
 			{
 				next = project_iso_bonus(*fdf, x, y + 1);
-				ft_draw_line(fdf, current.x, current.y, next.x, next.y, current.color, next.color);
+				ft_draw_line(fdf, current, next);
 			}
 			y++;
 		}
 		x++;
 	}
+}
+
+int	exit_fdf(t_data *fdf)
+{
+	liberator_int_tab(fdf->coordinate.map, fdf->coordinate.maxy);
+	mlx_destroy_image(fdf->mlx, fdf->img);
+	mlx_destroy_window(fdf->mlx, fdf->mlx_win);
+	mlx_destroy_display(fdf->mlx);
+	free(fdf->mlx);
+	exit(0);
 }
 
 int	main(int ac, char **av)
@@ -274,18 +233,24 @@ int	main(int ac, char **av)
 
 	(void)ac;
 	dup_map(av[1], &fdf);
+	fdf.save = dup_fdf(fdf.coordinate);
 	fdf.mlx = mlx_init();
 	fdf.mlx_win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
 	fdf.img = mlx_new_image(fdf.mlx, 1920, 1080);
 	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.line_lenght, &fdf.endian);
 	
 	fdf.step = 2;
-	fdf.translatex = 0, fdf.translatey = 0;
-	fdf.offset.x = 0, fdf.offset.y = 0;
-	fdf.angle.x = 0, fdf.angle.y = 0, fdf.angle.z = 0;
+	fdf.translatex = 0;
+	fdf.translatey = 0;
+	fdf.offset.x = 0;
+	fdf.offset.y = 0;
+	fdf.angle.x = 0;
+	fdf.angle.y = 0;
+	fdf.angle.z = 0;
 
 	mlx_hook(fdf.mlx_win, 2, 1L << 0, key_hook, &fdf);
 	mlx_mouse_hook(fdf.mlx_win, mouse_press, &fdf);
+	mlx_hook(fdf.mlx_win, 17, 1L << 0, exit_fdf, &fdf);
 	mlx_loop(fdf.mlx);
 	liberator_int_tab(fdf.coordinate.map, fdf.coordinate.maxy);
 }
