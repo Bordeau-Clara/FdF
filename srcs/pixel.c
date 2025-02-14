@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/12 11:30:49 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:18:18 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if ((x >= 0 && x < 1920 && y >= 0 && y < 1080) && color != 0)
+	if ((x >= 0 && x < 1800 && y >= 0 && y < 1080) && color != 0)
 	{
 	dst = data->addr + (y * data->line_lenght + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
@@ -51,7 +51,8 @@ void	ft_draw_line(t_data *data, t_point current, t_point next)
 	int		color;
 
 	step = 0;
-	length = sqrt((next.x - current.x) * (next.x - current.x) + (next.y - current.y) * (next.y - current.y));
+	length = sqrt((next.x - current.x) * (next.x - current.x) + \
+			(next.y - current.y) * (next.y - current.y));
 	dx = abs((int)next.x - (int)current.x);
 	dy = abs((int)next.y - (int)current.y);
 	if (current.x < next.x)
@@ -169,8 +170,9 @@ t_offset	set_offset(t_data fdf)
 	t_offset	offset;
 	t_point		middle;
 
-	middle = project_3d_to_2d(fdf.coordinate.maxx / 2, fdf.coordinate.maxy / 2, distance(fdf.coordinate.maxz, fdf.coordinate.minz), fdf);
-	offset.x = 960 - round(middle.x);
+	middle = project_3d_to_2d(fdf.coordinate.maxx / 2, fdf.coordinate.maxy / \
+				2, distance(fdf.coordinate.maxz, fdf.coordinate.minz), fdf);
+	offset.x = 900 - round(middle.x);
 	offset.y = 540 - round(middle.y);
 	return (offset);
 }
@@ -183,6 +185,31 @@ void	set_angle(t_data *fdf)
 	fdf->angle.siny = sin(fdf->angle.y);
 	fdf->angle.cosz = cos(fdf->angle.z);
 	fdf->angle.sinz = sin(fdf->angle.z);
+}
+
+void	display_controls(t_data *fdf)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 1920 - 120;
+	y = 20;
+	color = 0xFFFFFF;
+	mlx_string_put(fdf->mlx, fdf->win, x, y, color, "reset fdf :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 20, color, "     r");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 40, color, "rotate x axis :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 60, color, "    q a");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 80, color, "rotate y axis :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 100, color, "    w s");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 120, color, "rotate z axis :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 140, color, "    e d");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 160, color, "pov on top :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 180, color, "    0");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 200, color, "pov iso :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 220, color, "    1");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 240, color, "change colors :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    z x");
 }
 
 void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
@@ -217,8 +244,9 @@ void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
 int	exit_fdf(t_data *fdf)
 {
 	liberator_int_tab(fdf->coordinate.map, fdf->coordinate.maxy);
+	liberator_int_tab(fdf->save.map, fdf->coordinate.maxy);
 	mlx_destroy_image(fdf->mlx, fdf->img);
-	mlx_destroy_window(fdf->mlx, fdf->mlx_win);
+	mlx_destroy_window(fdf->mlx, fdf->win);
 	mlx_destroy_display(fdf->mlx);
 	free(fdf->mlx);
 	exit(0);
@@ -232,24 +260,23 @@ int	main(int ac, char **av)
 	dup_map(av[1], &fdf);
 	fdf.save = dup_fdf(fdf.coordinate);
 	fdf.mlx = mlx_init();
-	fdf.mlx_win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
-	fdf.img = mlx_new_image(fdf.mlx, 1920, 1080);
-	//fdf.img_instruct = mlx_new_image(fdf.mlx, 100, 100);
-	//mlx_put_image_to_window(fdf.mlx, fdf.mlx_win, fdf.img_instruct, 1820, 980);
+	fdf.win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
+	fdf.img = mlx_new_image(fdf.mlx, 1800, 1080);
 	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.line_lenght, &fdf.endian);
+	display_controls(&fdf);
 	
 	fdf.step = 2;
 	fdf.translatex = 0;
 	fdf.translatey = 0;
 	fdf.offset.x = 0;
 	fdf.offset.y = 0;
-	fdf.angle.x = 0;
-	fdf.angle.y = 0;
-	fdf.angle.z = 0;
+	fdf.angle.x = PI / 4;
+	fdf.angle.y = -PI / 6;
+	fdf.angle.z = -PI / 8;
 
-	mlx_hook(fdf.mlx_win, 2, 1L << 0, key_hook, &fdf);
-	mlx_mouse_hook(fdf.mlx_win, mouse_press, &fdf);
-	mlx_hook(fdf.mlx_win, 17, 1L << 0, exit_fdf, &fdf);
+	mlx_hook(fdf.win, 2, 1L << 0, key_hook, &fdf);
+	mlx_mouse_hook(fdf.win, mouse_press, &fdf);
+	mlx_hook(fdf.win, 17, 1L << 0, exit_fdf, &fdf);
 	mlx_loop(fdf.mlx);
 	liberator_int_tab(fdf.coordinate.map, fdf.coordinate.maxy);
 }

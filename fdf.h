@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/14 08:38:37 by cbordeau          #+#    #+#             */
+/*   Updated: 2025/02/14 16:28:45 by cbordeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
-#include "minilibx-linux/mlx.h"
-#include <math.h>
-#include "Libft/get_next_line.h"
-#include "Libft/libft.h"
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
+# include "minilibx-linux/mlx.h"
+# include <math.h>
+# include "Libft/get_next_line.h"
+# include "Libft/libft.h"
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 # define TRUE 1
 # define PI 3.14159265358979323846
@@ -55,7 +67,7 @@
 # define EVENT_MOUSE_RELEASE 5
 # define EVENT_DESTROY 17
 
-typedef struct	s_z
+typedef struct s_z
 {
 	int	z;
 	int	color;
@@ -71,7 +83,7 @@ typedef struct s_coordinate
 	int	maxz;
 }	t_coordinate;
 
-typedef	struct s_angle
+typedef struct s_angle
 {
 	float	x;
 	float	cosx;
@@ -84,22 +96,21 @@ typedef	struct s_angle
 	float	sinz;
 }	t_angle;
 
-typedef struct	s_offset
+typedef struct s_offset
 {
 	int	x;
 	int	y;
 }	t_offset;
 
-typedef struct  s_data
+typedef struct s_data
 {
 	void			*img;
-//	void			*img_instruct;
 	char			*addr;
 	int				bits_per_pixel;
 	int				line_lenght;
 	int				endian;
 	void			*mlx;
-	void			*mlx_win;
+	void			*win;
 
 	t_coordinate	coordinate;
 	t_coordinate	save;
@@ -110,22 +121,21 @@ typedef struct  s_data
 	int				translatey;
 }	t_data;
 
-
-typedef struct	s_point
+typedef struct s_point
 {
 	float	x;
 	float	y;
 	int		color;
 }	t_point;
 
-typedef struct	s_rgb
+typedef struct s_rgb
 {
 	int	r;
 	int	g;
 	int	b;
 }	t_rgb;
 
-typedef struct	s_vector
+typedef struct s_vector
 {
 	float	x;
 	float	y;
@@ -140,11 +150,22 @@ void			dup_map(char *file, t_data *fdf);
 t_coordinate	dup_fdf(t_coordinate coordinate);
 
 int				key_hook(int keycode, t_data *img);
-int 			mouse_press(int button, int x, int y, t_data *fdf);
+int				mouse_press(int button, int x, int y, t_data *fdf);
+void			put_new_img(t_data *fdf);
 int				exit_fdf(t_data *fdf);
+void			view(int keycode, t_data *fdf);
+void			rotate(int keycode, t_data *fdf);
+void			translate(int keycode, t_data *fdf);
+void			colors(int keycode, t_data *fdf);
+void			z(int keycode, t_data *fdf);
 void			change_color(t_data *fdf, int base, int final);
 void			move_z(t_data *fdf, int mode);
 
 void			ft_draw_square(t_data *img, t_coordinate coordinate, int x, int y);
-void 			ft_draw_line(t_data *data, t_point current, t_point next);
+void			ft_draw_line(t_data *data, t_point current, t_point next);
+void			set_angle(t_data *fdf);
+t_offset		set_offset(t_data fdf);
+
+t_point			project_spherical(t_data fdf, int x, int y);
+void			ft_draw_square2(t_data *fdf, t_coordinate coordinate, int x, int y);
 #endif

@@ -12,7 +12,7 @@ SRC_PATH  = srcs
 MLX = minilibx-linux
 
 ### SOURCE FILES ###
-SOURCES = colors.c  key_hook.c  parsing_fdf.c  pixel.c
+SOURCES = colors.c  key_hook.c  parsing_fdf.c  pixel.c sphere.c
 
 ### OBJECTS ###
 

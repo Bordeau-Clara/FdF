@@ -6,24 +6,25 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:56:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/11 12:23:13 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:42:03 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-int	find_color(t_data fdf, int base, int final, int i, int j)
+int	find_color(t_data fdf, int base, int final, t_offset p)
 {
 	t_rgb	colora;
 	t_rgb	colorb;
 	t_rgb	color;
 	float	ratio;
 
-	if (fdf.coordinate.map[i][j].z <= fdf.coordinate.minz)
+	if (fdf.coordinate.map[p.x][p.y].z <= fdf.coordinate.minz)
 		return (base);
-	if (fdf.coordinate.map[i][j].z >= fdf.coordinate.maxz)
+	if (fdf.coordinate.map[p.x][p.y].z >= fdf.coordinate.maxz)
 		return (final);
-	ratio = (float)(fdf.coordinate.map[i][j].z - fdf.coordinate.minz) / (fdf.coordinate.maxz - fdf.coordinate.minz);
+	ratio = (float)(fdf.coordinate.map[p.x][p.y].z - fdf.coordinate.minz) / \
+		(fdf.coordinate.maxz - fdf.coordinate.minz);
 	colora.r = (base >> 16) & 0xFF;
 	colora.g = (base >> 8) & 0xFF;
 	colora.b = base & 0xFF;
@@ -59,22 +60,22 @@ int	find_color(t_data fdf, int base, int final, int i, int j)
 
 void	change_color(t_data *fdf, int base, int final)
 {
-	int	i;
-	int	j;
+	t_offset	p;
 
-	i = 0;
-	while (i < fdf->coordinate.maxy)
+	p.x = 0;
+	while (p.x < fdf->coordinate.maxy)
 	{
-		j = 0;
-		while (j < fdf->coordinate.maxx)
+		p.y = 0;
+		while (p.y < fdf->coordinate.maxx)
 		{
-			if (fdf->coordinate.map[i][j].z == fdf->coordinate.minz)
-				fdf->coordinate.map[i][j].color = base;
+			if (fdf->coordinate.map[p.x][p.y].z == fdf->coordinate.minz)
+				fdf->coordinate.map[p.x][p.y].color = base;
 			else
-				fdf->coordinate.map[i][j].color = find_color(*fdf, base, final, i, j);
-			j++;
+				fdf->coordinate.map[p.x][p.y].color
+					= find_color(*fdf, base, final, p);
+			p.y++;
 		}
-		i++;
+		p.x++;
 	}
 }
 
