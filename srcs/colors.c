@@ -6,11 +6,29 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:56:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/14 15:42:03 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:05:12 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+
+int	interpolate_color(int color1, int color2, float t)
+{
+	t_rgb	colora;
+	t_rgb	colorb;
+	t_rgb	color;
+
+	colora.r = (color1 >> 16) & 0xFF;
+	colora.g = (color1 >> 8) & 0xFF;
+	colora.b = color1 & 0xFF;
+	colorb.r = (color2 >> 16) & 0xFF;
+	colorb.g = (color2 >> 8) & 0xFF;
+	colorb.b = color2 & 0xFF;
+	color.r = (int)(colora.r + t *(colorb.r - colora.r));
+	color.g = (int)(colora.g + t *(colorb.g - colora.g));
+	color.b = (int)(colora.b + t *(colorb.b - colora.b));
+	return ((color.r << 16) | (color.g << 8) | color.b);
+}
 
 int	find_color(t_data fdf, int base, int final, t_offset p)
 {

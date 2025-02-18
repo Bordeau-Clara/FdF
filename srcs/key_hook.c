@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/14 16:38:51 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:58:50 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,25 @@ t_coordinate	dup_fdf(t_coordinate coordinate)
 	int				i;
 	int				j;
 
-	i = 0;
-	j = 0;
+	i = -1;
 	save.maxx = coordinate.maxx;
 	save.maxy = coordinate.maxy;
 	save.maxz = coordinate.maxz;
 	save.minz = coordinate.minz;
 	save.map = malloc(save.maxy * sizeof(t_z *));
-	while (i < coordinate.maxy)
+	if (!save.map)
+		return (save);
+	while (++i < coordinate.maxy)
 	{
-		j = 0;
+		j = -1;
 		save.map[i] = malloc(save.maxx * sizeof(t_z));
-		while (j < coordinate.maxx)
+		if (!save.map[i])
+			return (liberator_int_tab(save.map, i), save);
+		while (++j < coordinate.maxx)
 		{
 			save.map[i][j].z = coordinate.map[i][j].z;
 			save.map[i][j].color = coordinate.map[i][j].color;
-			j++;
 		}
-		i++;
 	}
 	return (save);
 }
@@ -100,6 +101,14 @@ int	key_hook(int keycode, t_data *fdf)
 	if (keycode == KEY_R)
 	{
 		restore(fdf);
+		put_new_img(fdf);
+	}
+	if (keycode == KEY_M)
+	{
+		if (fdf->mode < 1)
+		fdf->mode++;
+		else
+			fdf->mode--;
 		put_new_img(fdf);
 	}
 	if (keycode == KEY_C)

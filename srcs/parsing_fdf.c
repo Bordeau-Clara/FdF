@@ -6,7 +6,7 @@
 /*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/11 12:25:39 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:10:54 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	fill_coordinate(t_list *lst, t_data *fdf)
 	int		k;
 
 	fdf->coordinate.map = ft_calloc(ft_lstsize(lst), sizeof(t_z *));
+	if (!fdf->coordinate.map)
+		return ;
 	fdf->coordinate.maxy = ft_lstsize(lst);
 	fdf->coordinate.maxx = count_words(lst->s, " \n");
 	i = 0;
@@ -128,7 +130,6 @@ void	print_int_tab(t_z **tab, int y, int x)
 
 void	dup_map(char *file, t_data *fdf)
 {
-	//t_coordinate	coordinate;
 	char	*s;
 	int		fd;
 	t_list	*lst;
@@ -143,9 +144,6 @@ void	dup_map(char *file, t_data *fdf)
 		ft_lstadd_back(&lst, ft_lstnew(s));
 	}
 	fill_coordinate(lst, fdf);
-	//print_int_tab(fdf->coordinate.map, ft_lstsize(lst), fdf->coordinate.maxx);
-//	liberator_int_tab(coordinate.map, ft_lstsize(lst));
 	close(fd);
 	ft_lstclear(&lst, free);
-	//return (coordinate);
 }

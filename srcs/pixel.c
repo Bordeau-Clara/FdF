@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:45:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/14 15:18:18 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:56:10 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_lenght + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 	}
-}
-
-int	interpolate_color(int color1, int color2, float t)
-{
-	t_rgb	colora;
-	t_rgb	colorb;
-	t_rgb	color;
-
-	colora.r = (color1 >> 16) & 0xFF;
-	colora.g = (color1 >> 8) & 0xFF;
-	colora.b = color1 & 0xFF;
-	colorb.r = (color2 >> 16) & 0xFF;
-	colorb.g = (color2 >> 8) & 0xFF;
-	colorb.b = color2 & 0xFF;
-	color.r = (int)(colora.r + t *(colorb.r - colora.r));
-	color.g = (int)(colora.g + t *(colorb.g - colora.g));
-	color.b = (int)(colora.b + t *(colorb.b - colora.b));
-	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
 // Algorithme de Bresenham
@@ -212,9 +194,16 @@ void	display_controls(t_data *fdf)
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    z x");
 }
 
-void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
+void	line(t_data *fdf, t_point current, int nx, int ny)
 {
 	t_point	next;
+
+	next = project_iso_bonus(*fdf, nx, ny);
+	ft_draw_line(fdf, current, next);
+}
+
+void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
+{
 	t_point	current;
 
 	set_angle(fdf);
@@ -226,15 +215,13 @@ void	ft_draw_square(t_data *fdf, t_coordinate coordinate, int x, int y)
 		{
 			current = project_iso_bonus(*fdf, x, y);
 			if (x < coordinate.maxx - 1)
-			{
-				next = project_iso_bonus(*fdf, x + 1, y);
-				ft_draw_line(fdf, current, next);
-			}
+				line(fdf, current, x + 1, y);
 			if (y < coordinate.maxy - 1)
-			{
-				next = project_iso_bonus(*fdf, x, y + 1);
-				ft_draw_line(fdf, current, next);
-			}
+				line(fdf, current, x, y + 1);
+			if (x < coordinate.maxx - 1 && y < coordinate.maxy - 1 && fdf->mode == 1)
+				line(fdf, current, x + 1, y + 1);
+			if (y < coordinate.maxy - 1 && x - 1 >= 0 && fdf->mode == 1)
+				line(fdf, current, x - 1, y + 1);
 			y++;
 		}
 		x++;
@@ -259,12 +246,15 @@ int	main(int ac, char **av)
 	(void)ac;
 	dup_map(av[1], &fdf);
 	fdf.save = dup_fdf(fdf.coordinate);
+	if (!fdf.save.map)
+		;
 	fdf.mlx = mlx_init();
 	fdf.win = mlx_new_window(fdf.mlx, 1920, 1080, "Square");
 	fdf.img = mlx_new_image(fdf.mlx, 1800, 1080);
 	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.line_lenght, &fdf.endian);
 	display_controls(&fdf);
 	
+	fdf.mode = 0;
 	fdf.step = 2;
 	fdf.translatex = 0;
 	fdf.translatey = 0;
