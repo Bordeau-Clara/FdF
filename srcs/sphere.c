@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:17:22 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/18 10:55:20 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/19 09:15:58 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,73 @@
 // 	return (result);
 // }
 
+
+
+// t_point	project_cylindrical(t_data fdf, int x, int y)
+// {
+// 	t_point		result;
+// 	t_vector	rot;
+// 	float		radius;
+// 	float		theta;
+//
+// 	// Centre de la carte
+// 	float center_x = fdf.coordinate.maxx / 2.0;
+// 	float center_y = fdf.coordinate.maxy / 2.0;
+//
+// 	// Convertir en coordonnées cartésiennes centrées
+// 	float x_cart = (x - center_x) * fdf.step;
+// 	float y_cart = (y - center_y) * fdf.step;
+// 	float z_cart = fdf.coordinate.map[y][x].z * fdf.step;
+//
+// 	// Rayon du cylindre (basé sur la largeur de la map)
+// 	radius = (fdf.coordinate.maxx * fdf.step) / (2 * M_PI); 
+//
+// 	// Conversion en coordonnées cylindriques
+// 	theta = x_cart / radius;  // Angle proportionnel à x
+// 	rot.x = radius * sin(theta);  
+// 	rot.y = radius * cos(theta);
+// 	rot.z = y_cart + z_cart;  // Garder la hauteur intacte
+//
+// 	// Projection finale en 2D
+// 	result.x = round(fdf.translatex + 800 + rot.x);
+// 	result.y = round(fdf.translatey + 540 + rot.z);
+// 	result.color = fdf.coordinate.map[y][x].color;
+//
+// 	return (result);
+// }
+
+
+t_point project_stereographic(t_data fdf, int x, int y)
+{
+    t_point result;
+    float center_x = fdf.coordinate.maxx / 2.0;
+    float center_y = fdf.coordinate.maxy / 2.0;
+
+    // Normalisation des coordonnées (centrage)
+    float x_cart = (x - center_x) * fdf.step;
+    float y_cart = (y - center_y) * fdf.step;
+    float z_cart = fdf.coordinate.map[y][x].z * fdf.step;
+
+    // Conversion en coordonnées sphériques
+    float r = sqrt(x_cart * x_cart + y_cart * y_cart + z_cart * z_cart);
+    float theta = atan2(y_cart, x_cart);  // Angle azimutal
+    float phi = acos(z_cart / r);         // Angle de hauteur
+
+    // Projection stéréographique
+    float k = 1.0 / (1.0 + cos(phi));  // Facteur de projection
+
+    result.x = round(fdf.translatex + 800 + (k * r * sin(theta)));
+    result.y = round(fdf.translatey + 540 + (k * r * cos(theta)));
+    result.color = fdf.coordinate.map[y][x].color;
+
+    return (result);
+}
 typedef struct s_circle
 {
 	float	r;
 	float	theta;
 	float	phi;
-	int color;
+	int		color;
 }t_circle;
 
 t_point	project_spherical(t_data fdf, int x, int y)
@@ -117,6 +178,7 @@ t_point	project_spherical(t_data fdf, int x, int y)
 
 	return (result);
 }
+
 void	ft_draw_square2(t_data *fdf, t_coordinate coordinate, int x, int y)
 {
 	t_point	next;
@@ -129,15 +191,15 @@ void	ft_draw_square2(t_data *fdf, t_coordinate coordinate, int x, int y)
 		y = 0;
 		while (y < coordinate.maxy)
 		{
-			current = project_spherical(*fdf, x, y);
+			current = project_stereographic(*fdf, x, y);
 			if (x < coordinate.maxx - 1)
 			{
-				next = project_spherical(*fdf, x + 1, y);
+				next = project_stereographic(*fdf, x + 1, y);
 				ft_draw_line(fdf, current, next);
 			}
 			if (y < coordinate.maxy - 1)
 			{
-				next = project_spherical(*fdf, x, y + 1);
+				next = project_stereographic(*fdf, x, y + 1);
 				ft_draw_line(fdf, current, next);
 			}
 			y++;

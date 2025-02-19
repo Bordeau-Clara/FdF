@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/19 08:07:35 by cbordeau          #+#    #+#              #
+#    Updated: 2025/02/19 08:41:13 by cbordeau         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 ### COMPILATION ###
 CC      = cc
 FLAGS  = -Wall -Wextra -Werror -g3
@@ -12,7 +24,8 @@ SRC_PATH  = srcs
 MLX = minilibx-linux
 
 ### SOURCE FILES ###
-SOURCES = colors.c  key_hook.c  key_hook_2.c parsing_fdf.c  pixel.c sphere.c
+SOURCES = fdf.c colors.c key_hook.c key_hook_2.c parsing_fdf.c sphere.c \
+		  display.c utils.c utils_2.c
 
 ### OBJECTS ###
 

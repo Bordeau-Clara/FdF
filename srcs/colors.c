@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:56:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/18 12:05:12 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:10:08 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,12 @@ void	move_z(t_data *fdf, int mode)
 		j = 0;
 		while (j < fdf->coordinate.maxx)
 		{
-			if (fdf->coordinate.map[i][j].z != fdf->coordinate.minz && mode == 1)
-			{
+			if (fdf->coordinate.map[i][j].z != fdf->coordinate.minz
+				&& mode == 1)
 				fdf->coordinate.map[i][j].z += 1;
-			}
-			if (fdf->coordinate.map[i][j].z > fdf->coordinate.minz + 1 && mode == 0)
-			{
+			if (fdf->coordinate.map[i][j].z > fdf->coordinate.minz + 1
+				&& mode == 0)
 				fdf->coordinate.map[i][j].z -= 1;
-			}
 			j++;
 		}
 		i++;

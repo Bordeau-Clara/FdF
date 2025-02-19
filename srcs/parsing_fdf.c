@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_fdf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykrifa <aykrifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/01 14:59:09 by aykrifa           #+#    #+#             */
-/*   Updated: 2025/02/18 12:10:54 by cbordeau         ###   ########.fr       */
+/*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
+/*   Updated: 2025/02/19 13:20:48 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,31 @@ static int	isbase(char c, char *base)
 	return (-1);
 }
 
-void	fill_coordinate(t_list *lst, t_data *fdf)
+void	calloc_rows_set_max(t_list *lst, t_data *fdf)
 {
-	int		i;
-	int		j;
-	int		k;
-
-	fdf->coordinate.map = ft_calloc(ft_lstsize(lst), sizeof(t_z *));
-	if (!fdf->coordinate.map)
-		return ;
 	fdf->coordinate.maxy = ft_lstsize(lst);
+	if (!fdf->coordinate.maxy)
+		ft_exit(fdf, lst, FAILURE);
 	fdf->coordinate.maxx = count_words(lst->s, " \n");
-	i = 0;
-	while (lst)
+	if (!fdf->coordinate.maxx)
+		ft_exit(fdf, lst, FAILURE);
+	fdf->coordinate.map = ft_calloc(fdf->coordinate.maxy, sizeof(t_z *));
+	if (!fdf->coordinate.map)
+		ft_exit(fdf, lst, FAILURE);
+}
+
+void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
+{
+	int		k;
+	t_list	*current;
+
+	calloc_rows_set_max(lst, fdf);
+	current = lst;
+	while (current)
 	{
-		(fdf->coordinate.map)[i] = malloc(count_words(lst->s, " \n") * sizeof(t_z));
+		(fdf->coordinate.map)[i] = malloc(fdf->coordinate.maxx * sizeof(t_z));
+		if (!fdf->coordinate.map)
+			ft_exit(fdf, lst, FAILURE);
 		j = 0;
 		k = 0;
 		while (j < count_words(lst->s, " \n"))
@@ -92,7 +102,7 @@ void	fill_coordinate(t_list *lst, t_data *fdf)
 			j++;
 		}
 		i++;
-		lst = lst->next;
+		current = current->next;
 	}
 }
 
@@ -133,6 +143,7 @@ void	dup_map(char *file, t_data *fdf)
 	char	*s;
 	int		fd;
 	t_list	*lst;
+	t_list	*node;
 
 	lst = NULL;
 	fd = open(file, O_RDONLY);
@@ -141,9 +152,15 @@ void	dup_map(char *file, t_data *fdf)
 		s = get_next_line(fd);
 		if (!s)
 			break ;
-		ft_lstadd_back(&lst, ft_lstnew(s));
+		node = ft_lstnew(s);
+		if (!node)
+		{
+			free(s);
+			break ;
+		}
+		ft_lstadd_back(&lst, node);
 	}
-	fill_coordinate(lst, fdf);
+	fill_coordinate(lst, fdf, 0, 0);
 	close(fd);
 	ft_lstclear(&lst, free);
 }

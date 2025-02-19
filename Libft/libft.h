@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:06:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/05 09:05:44 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:42:05 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 t_list	*ft_lstnew(void *content);
-void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *new_node);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_lstsize(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new_node);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));

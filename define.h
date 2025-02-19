@@ -6,12 +6,14 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:05:39 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/18 16:23:38 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:47:03 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINE_H
 # define DEFINE_H
+
+# define FAILURE 1
 
 # define TRUE 1
 # define PI 3.14159265358979323846

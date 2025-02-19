@@ -6,32 +6,25 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:23:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/14 16:28:20 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:14:18 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	set_angle2(t_data *fdf, float x, float y, float z)
-{
-		fdf->angle.x = x;
-		fdf->angle.y = y;
-		fdf->angle.z = z;
-}
-
 void	view(int keycode, t_data *fdf)
 {
 	if (keycode == KEY_0)
 		set_angle2(fdf, 0, 0, 0);
-	if (keycode == KEY_1) //projection isometrique classique
+	if (keycode == KEY_1)
 		set_angle2(fdf, PI / 4, -PI / 6, 0);
-	if (keycode == KEY_2) //projection isometrique classque avec rotation de l'axe z
+	if (keycode == KEY_2)
 		set_angle2(fdf, PI / 4, -PI / 6, -PI / 8);
-	if (keycode == KEY_3) //projection militaire
+	if (keycode == KEY_3)
 		set_angle2(fdf, 0, PI / 6, PI / 6);
-	if (keycode == KEY_4) //vue drone
+	if (keycode == KEY_4)
 		set_angle2(fdf, -PI / 3, PI / 4, 0);
-	if (keycode == KEY_5) //projection oblique
+	if (keycode == KEY_5)
 		set_angle2(fdf, -PI / 2, PI / 6, 0);
 	if (keycode == KEY_0
 		|| keycode == KEY_1
