@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 08:45:15 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:41:22 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	put_sphere(t_data *fdf)
 	fdf->img = mlx_new_image(fdf->mlx, 1800, 1080);
 	fdf->addr = mlx_get_data_addr
 		(fdf->img, &fdf->bits_per_pixel, &fdf->line_lenght, &fdf->endian);
-	ft_draw_square2(fdf, fdf->coordinate, 0, 0);
+	//ft_draw_square2(fdf, fdf->coordinate, 0, 0);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 }
 
@@ -41,7 +41,11 @@ int	key_hook(int keycode, t_data *fdf)
 	view(keycode, fdf);
 	rotate(keycode, fdf);
 	if (keycode == KEY_C)
-		put_sphere(fdf);
+	{
+		fdf->mode = 2;
+		go_polar(fdf);
+		put_new_img(fdf);
+	}
 	return (0);
 }
 

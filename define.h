@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:05:39 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 11:47:03 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:23:32 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 # define DEFINE_H
 
 # define FAILURE 1
-
+# define LONG 0
+# define LAT 1
+# define X 0
+# define Y 1
+# define Z 2
 # define TRUE 1
 # define PI 3.14159265358979323846
+
 # define KEY_ESC         65307
 # define KEY_W           119
 # define KEY_A           97

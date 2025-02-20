@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:45 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 12:04:02 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:45:32 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,23 @@ t_point	project_iso_bonus(t_data fdf, int x, int y)
 	t_vector	rot;
 	float		temp;
 
-	rot.y = fdf.angle.cosx * y - fdf.angle.sinx * fdf.coordinate.map[y][x].z;
-	rot.z = fdf.angle.sinx * y + fdf.angle.cosx * fdf.coordinate.map[y][x].z;
-	rot.x = (fdf.angle.cosy) * x + fdf.angle.siny * rot.z;
-	rot.z = -fdf.angle.siny * x + fdf.angle.cosy * rot.z;
+	rot.y = fdf.angle.cosx * fdf.coordinate.map[y][x].y - fdf.angle.sinx * fdf.coordinate.map[y][x].z;
+	rot.z = fdf.angle.sinx * fdf.coordinate.map[y][x].y + fdf.angle.cosx * fdf.coordinate.map[y][x].z;
+	rot.x = (fdf.angle.cosy) * fdf.coordinate.map[y][x].x + fdf.angle.siny * rot.z;
+	rot.z = -fdf.angle.siny * fdf.coordinate.map[y][x].x + fdf.angle.cosy * rot.z;
 	temp = rot.x;
 	rot.x = fdf.angle.cosz * rot.x - fdf.angle.sinz * rot.y;
 	rot.y = fdf.angle.sinz * temp + fdf.angle.cosz * rot.y;
-	result.x = round(fdf.translatex + fdf.offset.x + (fdf.step * rot.x));
-	result.y = round(fdf.translatey + fdf.offset.y + (fdf.step * rot.y));
+	if (fdf.mode == 2)
+	{
+		result.x = round(fdf.translatex + 900 + (fdf.step * rot.x));
+		result.y = round(fdf.translatey + 540 + (fdf.step * rot.y));
+	}
+	else
+	{
+		result.x = round(fdf.translatex + fdf.offset.x + (fdf.step * rot.x));
+		result.y = round(fdf.translatey + fdf.offset.y + (fdf.step * rot.y));
+	}
 	result.color = fdf.coordinate.map[y][x].color;
 	return (result);
 }
@@ -83,6 +91,33 @@ void	ft_draw_fdf(t_data *fdf, t_coordinate coordinate, int x, int y)
 		x++;
 	}
 }
+
+// void	ft_draw_fdf(t_data *fdf, t_coordinate coordinate, int x, int y)
+// {
+// 	t_point	current;
+//
+// 	set_angle(fdf);
+// 	fdf->offset = set_offset(*fdf);
+// 	while (x < coordinate.maxx)
+// 	{
+// 		y = 0;
+// 		while (y < coordinate.maxy)
+// 		{
+// 			current = project_iso_bonus(*fdf, fdf->coordinate.map[y][x].x, fdf->coordinate.map[y][x].y);
+// 			if (x < coordinate.maxx - 1)
+// 				line(fdf, current, fdf->coordinate.map[y][x + 1].x , fdf->coordinate.map[y][x].y);
+// 			if (y < coordinate.maxy - 1)
+// 				line(fdf, current, fdf->coordinate.map[y][x].x, fdf->coordinate.map[y + 1][x].y);
+// 			if (x < coordinate.maxx - 1 && y < coordinate.maxy - 1
+// 				&& fdf->mode == 1)
+// 				line(fdf, current, fdf->coordinate.map[y][x + 1].x, fdf->coordinate.map[y + 1][x].y);
+// 			if (y < coordinate.maxy - 1 && x - 1 >= 0 && fdf->mode == 1)
+// 				line(fdf, current, fdf->coordinate.map[y][x - 1].x, fdf->coordinate.map[y + 1][x].y);
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }
 
 void	ft_exit(t_data *fdf, t_list *lst, int err_code)
 {
@@ -150,6 +185,7 @@ int	main(int ac, char **av)
 	fdf.save = dup_fdf(fdf.coordinate);
 	if (!fdf.save.map)
 		ft_exit(&fdf, NULL, FAILURE);
+	print_int_tab(fdf.coordinate.map, fdf.coordinate.maxy, fdf.coordinate.maxx);
 	display_controls(&fdf);
 	
 

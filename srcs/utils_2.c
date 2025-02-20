@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:16:00 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 08:16:55 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:46:42 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	restore(t_data *fdf)
 
 	i = 0;
 	j = 0;
+	fdf->mode = 0;
 	fdf->coordinate.maxx = fdf->save.maxx;
 	fdf->coordinate.maxy = fdf->save.maxy;
 	fdf->coordinate.maxz = fdf->save.maxz;

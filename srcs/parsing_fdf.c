@@ -6,11 +6,12 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 13:20:48 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:26:50 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+#include <stdio.h>
 
 int	count_words(const char *s, char *c)
 {
@@ -78,26 +79,28 @@ void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 		k = 0;
 		while (j < count_words(lst->s, " \n"))
 		{
-			(fdf->coordinate.map)[i][j].z = ft_atoi(&(lst->s)[k]);
-			while (ft_isdigit((lst->s)[k]))
+			(fdf->coordinate.map)[i][j].x = j;
+			(fdf->coordinate.map)[i][j].y = i;
+			(fdf->coordinate.map)[i][j].z = ft_atoi(&(current->s)[k]);
+			while (ft_isdigit((current->s)[k]))
 				k++;
 			if ((!i && !j) || (fdf->coordinate.map[i][j].z > fdf->coordinate.maxz))
 				fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
 			if ((!i && !j) || (fdf->coordinate.map[i][j].z < fdf->coordinate.minz))
 				fdf->coordinate.minz = fdf->coordinate.map[i][j].z;
-			if (lst->s[k] == ',')
+			if (current->s[k] == ',')
 			{
 				k += 3;
-				fdf->coordinate.map[i][j].color = ft_atoi_base(&lst->s[k], "0123456789ABCDEF");
-				fdf->coordinate.map[i][j].colorh = ft_atoi_base(&lst->s[k], "0123456789abcdef");
+				fdf->coordinate.map[i][j].color = ft_atoi_base(&current->s[k], "0123456789ABCDEF");
+				fdf->coordinate.map[i][j].colorh = ft_atoi_base(&current->s[k], "0123456789abcdef");
 				if (fdf->coordinate.map[i][j].colorh > fdf->coordinate.map[i][j].color)
 					fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
 			}
 			else
 				fdf->coordinate.map[i][j].color = 0x810202;
-			while (isbase(lst->s[k], "0123456789ABCDEFabcdef") != -1)
+			while (isbase(current->s[k], "0123456789ABCDEFabcdef") != -1)
 				k++;
-			while ((lst->s)[k] == ' ' || (lst->s)[k] == '\n')
+			while ((current->s)[k] == ' ' || (current->s)[k] == '\n')
 				k++;
 			j++;
 		}
@@ -130,7 +133,7 @@ void	print_int_tab(t_z **tab, int y, int x)
 		j = 0;
 		while (j < x)
 		{
-			printf("%2d ", tab[i][j].z);
+			printf("%2f ", tab[i][j].z);
 			j++;
 		}
 		printf("\n");

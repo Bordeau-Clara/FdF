@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:02:53 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/18 16:04:35 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:55:11 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 
 typedef struct s_z
 {
-	int	z;
+	float	x;
+	float	y;
+	float	z;
+	float	polar[2];
 	int	color;
 	int	colorh;
 }	t_z;
@@ -48,6 +51,12 @@ typedef struct s_offset
 	int	y;
 }	t_offset;
 
+typedef struct s_circle
+{
+	float	radius;
+	float	step[2];
+}	t_circle ;
+
 typedef struct s_data
 {
 	void			*img;
@@ -66,6 +75,7 @@ typedef struct s_data
 	int				translatex;
 	int				translatey;
 	int				mode;
+	t_circle		circle;
 }	t_data;
 
 typedef struct s_point

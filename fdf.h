@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 08:38:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 13:20:34 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:10:47 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ void			change_color(t_data *fdf, int base, int final);
 void			move_z(t_data *fdf, int mode);
 
 //sphere
-t_point			project_spherical(t_data fdf, int x, int y);
-void			ft_draw_square2(t_data *fdf, t_coordinate coordinate, int x, int y);
+void			go_polar(t_data *fdf);
 
 //utils
 void			set_angle(t_data *fdf);

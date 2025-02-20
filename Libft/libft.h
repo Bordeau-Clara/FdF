@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:06:58 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 08:42:05 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:22:27 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
+int		ft_atof(const char *nptr);
 int		ft_atoi_base(char *str, char *base);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
