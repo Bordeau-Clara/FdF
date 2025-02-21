@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 12:03:47 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 12:19:57 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:53:06 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_point	find_final_point(t_data fdf, t_vector rot)
 	result.paint = 1;
 	if (fdf.shpere == 1)
 	{
-		if (rot.z < 0)
+		if (rot.z > 0)
 			result.paint = 0;
 		result.x = round(fdf.translatex + 900 + (fdf.step * rot.x));
 		result.y = round(fdf.translatey + 540 + (fdf.step * rot.y));

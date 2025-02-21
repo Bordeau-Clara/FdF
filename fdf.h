@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 08:38:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 12:29:43 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:23:02 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int				exit_fdf(t_data *fdf);
 int				interpolate_color(int color1, int color2, float t);
 int				find_color(t_data fdf, int base, int final, t_offset p);
 void			change_color(t_data *fdf, int base, int final);
+void			earth_color(t_data *fdf);
 
 //sphere
 void			go_polar(t_data *fdf, int x, int y);
@@ -82,5 +83,6 @@ t_offset		set_offset(t_data fdf);
 t_coordinate	dup_fdf(t_coordinate coordinate, int i, int j);
 void			restore(t_data *fdf);
 void			move_z(t_data *fdf, int mode);
+void			z_to_zero(t_data *fdf);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:56:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 11:35:28 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:14:07 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,37 @@ void	change_color(t_data *fdf, int base, int final)
 		p.x++;
 	}
 }
+void	earth_color(t_data *fdf)
+{
+	t_offset	p;
+
+	p.y = 0;
+	while (p.y < fdf->coordinate.maxy)
+	{
+		p.x = 0;
+		while (p.x < fdf->coordinate.maxx)
+		{
+			int z = fdf->coordinate.map[p.y][p.x].z;
+
+			if (z <= -10)
+					fdf->coordinate.map[p.y][p.x].color = 0x00008B;
+			else if (z > -10 && z <= 0)
+					fdf->coordinate.map[p.y][p.x].color = 0x1E90FF;
+			else if (z > 0 && z <= 5)
+					fdf->coordinate.map[p.y][p.x].color = 0xF4A460;
+			else if (z > 5 && z <= 20)
+					fdf->coordinate.map[p.y][p.x].color = 0x00FF00;
+			else if (z > 20 && z <= 50)
+					fdf->coordinate.map[p.y][p.x].color = 0x008000;
+			else if (z > 50 && z <= 100)
+					fdf->coordinate.map[p.y][p.x].color = 0x8B4513;
+			else if (z > 100 && z <= 200)
+					fdf->coordinate.map[p.y][p.x].color = 0xA9A9A9;
+			else
+					fdf->coordinate.map[p.y][p.x].color = 0xFFFFFF;
+			p.x++;
+		}
+		p.y++;
+	}
+}
+

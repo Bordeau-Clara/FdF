@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 14:22:32 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:01:02 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,30 @@ int	color(t_data *fdf, char *nb, int i, int j)
 	fdf->coordinate.map[i][j].colorh = ft_atoi_base(nb, "0123456789abcdef");
 	if (fdf->coordinate.map[i][j].colorh > fdf->coordinate.map[i][j].color)
 		fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
-	else
-		fdf->coordinate.map[i][j].color = 0x810202;
 	return (3);
 }
 
-// int	skip_caract_set_color(t_data *fdf, char *s, int i, int j)
-// {
-// 	int	k;
-// 	while (ft_isdigit((s[k]) || s[k] == '-')
-// 		k++;
-// 	if (s[k] == ',')
-// 		k += color(fdf, &current->s[k + 3], i, j);
-// 	while (isbase(current->s[k], "0123456789ABCDEFabcdef") != -1)
-// 		k++;
-// 	while ((current->s)[k] == ' ' || (current->s)[k] == '\n')
-// 		k++;
-// 	return (k);
-// }
+int	skip_caract_set_color(t_data *fdf, char *s, int i, int j)
+{
+	int	k;
+
+	k = 0;
+	if ((!i && !j) || (fdf->coordinate.map[i][j].z > fdf->coordinate.maxz))
+		fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
+	if ((!i && !j) || (fdf->coordinate.map[i][j].z < fdf->coordinate.minz))
+		fdf->coordinate.minz = fdf->coordinate.map[i][j].z;
+	while (ft_isdigit(s[k]) || s[k] == '-')
+		k++;
+	if (s[k] == ',')
+		k += color(fdf, &s[k + 3], i, j);
+	else
+		fdf->coordinate.map[i][j].color = 0x810202;
+	while (isbase(s[k], "0123456789ABCDEFabcdef") != -1)
+		k++;
+	while (s[k] == ' ' || s[k] == '\n')
+		k++;
+	return (k);
+}
 
 void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 {
@@ -71,18 +77,7 @@ void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 			(fdf->coordinate.map)[i][j].x = j;
 			(fdf->coordinate.map)[i][j].y = i;
 			(fdf->coordinate.map)[i][j].z = ft_atoi(&(current->s)[k]);
-			if ((!i && !j) || (fdf->coordinate.map[i][j].z > fdf->coordinate.maxz))
-				fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
-			if ((!i && !j) || (fdf->coordinate.map[i][j].z < fdf->coordinate.minz))
-				fdf->coordinate.minz = fdf->coordinate.map[i][j].z;
-			while (ft_isdigit((current->s)[k]) || current->s[k] == '-')
-				k++;
-			if (current->s[k] == ',')
-				k += color(fdf, &current->s[k + 3], i, j);
-			while (isbase(current->s[k], "0123456789ABCDEFabcdef") != -1)
-				k++;
-			while ((current->s)[k] == ' ' || (current->s)[k] == '\n')
-				k++;
+			k += skip_caract_set_color(fdf, &current->s[k], i, j);
 			j++;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:16:00 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 11:36:55 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:45:20 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	restore(t_data *fdf)
 	i = 0;
 	j = 0;
 	fdf->mode = 0;
+	fdf->offset = set_offset(*fdf);
 	fdf->coordinate.maxx = fdf->save.maxx;
 	fdf->coordinate.maxy = fdf->save.maxy;
 	fdf->coordinate.maxz = fdf->save.maxz;
@@ -92,4 +93,24 @@ void	move_z(t_data *fdf, int mode)
 		fdf->coordinate.maxz += 1;
 	if (mode == 0 && fdf->coordinate.minz + 1 != fdf->coordinate.maxz)
 		fdf->coordinate.maxz -= 1;
+}
+
+void	z_to_zero(t_data *fdf)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < fdf->coordinate.maxy)
+	{
+		j = 0;
+		while (j < fdf->coordinate.maxx)
+		{
+			if (fdf->coordinate.map[i][j].z > fdf->coordinate.minz)
+				fdf->coordinate.map[i][j].z = fdf->coordinate.minz + 1;
+			j++;
+		}
+		i++;
+	}
+	fdf->coordinate.maxz = fdf->coordinate.minz + 1;
 }

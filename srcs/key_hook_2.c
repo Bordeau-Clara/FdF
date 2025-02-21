@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:23:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 09:20:04 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:41:02 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ void	colors(int keycode, t_data *fdf)
 		change_color(fdf, 0x00FF0000, 0x00FFFFFF);
 		put_new_img(fdf);
 	}
+	if (keycode == KEY_V)
+	{
+		earth_color(fdf);
+		put_new_img(fdf);
+	}
 }
 
 void	z(int keycode, t_data *fdf)
@@ -106,6 +111,12 @@ void	z(int keycode, t_data *fdf)
 	if (keycode == KEY_PLUS)
 	{
 		move_z(fdf, 1);
+		put_new_img(fdf);
+	}
+	if (keycode == KEY_O)
+	{
+		z_to_zero(fdf);
+		//fdf->offset = set_offset(*fdf);
 		put_new_img(fdf);
 	}
 }

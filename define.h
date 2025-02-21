@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:05:39 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/20 14:23:32 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 18:18:13 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@
 # define KEY_M           109
 # define KEY_Q           113
 # define KEY_E           101
+# define KEY_O           111
 # define KEY_R           114
+# define KEY_V           118
 # define KEY_Z           122
 # define KEY_X           120
 # define KEY_C           99
