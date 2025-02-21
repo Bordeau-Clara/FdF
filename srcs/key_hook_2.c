@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:23:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:41:02 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 19:29:48 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,9 @@ void	z(int keycode, t_data *fdf)
 		move_z(fdf, 1);
 		put_new_img(fdf);
 	}
-	if (keycode == KEY_O)
+	if (keycode == KEY_O && fdf->shpere != 1)
 	{
 		z_to_zero(fdf);
-		//fdf->offset = set_offset(*fdf);
 		put_new_img(fdf);
 	}
 }

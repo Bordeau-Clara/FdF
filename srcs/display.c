@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:03:24 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 11:34:49 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:28:23 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,19 +115,19 @@ void	display_controls(t_data *fdf)
 	y = 20;
 	color = 0xFFFFFF;
 	mlx_string_put(fdf->mlx, fdf->win, x, y, color, " reset fdf :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 20, color, "     r");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 40, color, " rotate x axis :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 60, color, "    q a");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 80, color, " rotate y axis :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 100, color, "    w s");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 120, color, " rotate z axis :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 140, color, "    e d");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 20, color, "     R");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 40, color, " rotate X axis :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 60, color, "    Q A");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 80, color, " rotate Y axis :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 100, color, "    W S");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 120, color, " rotate Z axis :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 140, color, "    E D");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 160, color, " pov on top :");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 180, color, "    0");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 200, color, " projections :");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 220, color, "    0 1 2 3 4 5 c");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 240, color, " change colors :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    z x");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    Z X V");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 240, color, " change mode :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    m");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    M");
 }

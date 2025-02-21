@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:45 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 12:09:32 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:30:58 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_draw_fdf(t_data *fdf, t_coordinate coordinate, int x, int y)
 void	init_fdf(t_data *fdf)
 {
 	fdf->mode = 0;
+	fdf->shpere = 0;
 	fdf->step = 2;
 	fdf->translatex = 0;
 	fdf->translatey = 0;

@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:51:29 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 19:30:26 by cbordeau         ###   LAUSANNE.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	key_hook(int keycode, t_data *fdf)
 	rotate(keycode, fdf);
 	if (keycode == KEY_ESC)
 		exit_fdf(fdf);
-	if (keycode == KEY_C)
+	if (keycode == KEY_C && fdf->shpere == 0)
 	{
 		fdf->shpere = 1;
 		set_angle2(fdf, -PI / 2, 0, 0);
