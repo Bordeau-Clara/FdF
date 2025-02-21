@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:17:22 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/20 19:28:37 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 07:59:04 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	go_polar(t_data *fdf)
 	int	y;
 	int	x;
 
-	fdf->circle.step[X] = (PI * 2) / (float)(((float)fdf->coordinate.maxx * 2) - 1);
-	fdf->circle.step[Y] = PI / (float)((float)fdf->coordinate.maxy * 2);
+	fdf->circle.step[X] = (PI * 2) / (float)(((float)fdf->coordinate.maxx) - 1);
+	fdf->circle.step[Y] = PI / (float)((float)fdf->coordinate.maxy);
 	fdf->circle.radius = ((float)fdf->coordinate.maxx) / (PI * 2);
 	y = 0;
 	while (y < fdf->coordinate.maxy)
@@ -37,12 +37,12 @@ void	go_polar(t_data *fdf)
 		while (x < fdf->coordinate.maxx)
 		{
 			fdf->coordinate.map[y][x].polar[LONG] = -(fdf->coordinate.map[y][x].x) * fdf->circle.step[X];
-			if ( fdf->coordinate.map[y][x].y > (float)fdf->coordinate.maxy * 2)
+			if ( fdf->coordinate.map[y][x].y > (float)fdf->coordinate.maxy)
 				fdf->coordinate.map[y][x].polar[LAT] = (fdf->coordinate.map[y][x].y + \
-					((float)fdf->coordinate.maxy / 2)) * fdf->circle.step[Y] - 0.5 * fdf->circle.step[Y];
+					((float)fdf->coordinate.maxy)) * fdf->circle.step[Y] - 0.5 * fdf->circle.step[Y];
 			else
 				fdf->coordinate.map[y][x].polar[LAT] = (fdf->coordinate.map[y][x].y + \
-					((float)fdf->coordinate.maxy / 2) - 1) * fdf->circle.step[Y] + 0.5 * fdf->circle.step[Y];
+					((float)fdf->coordinate.maxy) - 1) * fdf->circle.step[Y] + 0.5 * fdf->circle.step[Y];
 			spherize(fdf, x, y);
 			x++;
 		}
