@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 09:28:59 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:22:08 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 			(fdf->coordinate.map)[i][j].x = j;
 			(fdf->coordinate.map)[i][j].y = i;
 			(fdf->coordinate.map)[i][j].z = ft_atoi(&(current->s)[k]);
-			while (ft_isdigit((current->s)[k]))
+			while (ft_isdigit((current->s)[k]) || current->s[k] == '-')
 				k++;
 			if ((!i && !j) || (fdf->coordinate.map[i][j].z > fdf->coordinate.maxz))
 				fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
@@ -98,7 +98,9 @@ void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 					fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
 			}
 			else
+			{
 				fdf->coordinate.map[i][j].color = 0x810202;
+			}
 			while (isbase(current->s[k], "0123456789ABCDEFabcdef") != -1)
 				k++;
 			while ((current->s)[k] == ' ' || (current->s)[k] == '\n')
@@ -134,7 +136,8 @@ void	print_int_tab(t_z **tab, int y, int x)
 		j = 0;
 		while (j < x)
 		{
-			printf("%2f ", tab[i][j].z);
+			printf("%.0f, ", tab[i][j].z);
+			// printf("%x ", tab[i][j].color);
 			j++;
 		}
 		printf("\n");

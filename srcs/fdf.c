@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:45 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 09:41:26 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:12:50 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int	main(int ac, char **av)
 	fdf.save = dup_fdf(fdf.coordinate);
 	if (!fdf.save.map)
 		ft_exit(&fdf, NULL, FAILURE);
-	print_int_tab(fdf.coordinate.map, fdf.coordinate.maxy, fdf.coordinate.maxx);
+	//print_int_tab(fdf.coordinate.map, fdf.coordinate.maxy, fdf.coordinate.maxx);
 	display_controls(&fdf);
 	
 
