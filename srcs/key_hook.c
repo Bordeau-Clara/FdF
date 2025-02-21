@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 09:45:09 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:55:52 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ void	put_new_img(t_data *fdf)
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 }
 
-void	put_sphere(t_data *fdf)
-{
-	mlx_destroy_image(fdf->mlx, fdf->img);
-	fdf->img = mlx_new_image(fdf->mlx, 1800, 1080);
-	fdf->addr = mlx_get_data_addr
-		(fdf->img, &fdf->bits_per_pixel, &fdf->line_lenght, &fdf->endian);
-	//ft_draw_square2(fdf, fdf->coordinate, 0, 0);
-	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
-}
-
 int	key_hook(int keycode, t_data *fdf)
 {
 	basics(keycode, fdf);
@@ -40,11 +30,13 @@ int	key_hook(int keycode, t_data *fdf)
 	translate(keycode, fdf);
 	view(keycode, fdf);
 	rotate(keycode, fdf);
+	if (keycode == KEY_ESC)
+		exit_fdf(fdf);
 	if (keycode == KEY_C)
 	{
 		fdf->shpere = 1;
 		set_angle2(fdf, -PI / 2, 0, 0);
-		go_polar(fdf);
+		go_polar(fdf, 0, 0);
 		put_new_img(fdf);
 	}
 	return (0);
@@ -52,8 +44,6 @@ int	key_hook(int keycode, t_data *fdf)
 
 void	basics(int keycode, t_data *fdf)
 {
-	if (keycode == KEY_ESC)
-		exit_fdf(fdf);
 	if (keycode == KEY_SPACE)
 	{
 		ft_draw_fdf(fdf, fdf->coordinate, 0, 0);
@@ -75,7 +65,7 @@ void	basics(int keycode, t_data *fdf)
 			fdf->mode = 0;
 		put_new_img(fdf);
 	}
-	if (keycode == KEY_ESC
+	if (keycode == KEY_SPACE
 		|| keycode == KEY_R
 		|| keycode == KEY_M)
 		put_new_img(fdf);

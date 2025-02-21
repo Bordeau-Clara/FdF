@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:56:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 08:10:08 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:35:28 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,31 +95,4 @@ void	change_color(t_data *fdf, int base, int final)
 		}
 		p.x++;
 	}
-}
-
-void	move_z(t_data *fdf, int mode)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < fdf->coordinate.maxy)
-	{
-		j = 0;
-		while (j < fdf->coordinate.maxx)
-		{
-			if (fdf->coordinate.map[i][j].z != fdf->coordinate.minz
-				&& mode == 1)
-				fdf->coordinate.map[i][j].z += 1;
-			if (fdf->coordinate.map[i][j].z > fdf->coordinate.minz + 1
-				&& mode == 0)
-				fdf->coordinate.map[i][j].z -= 1;
-			j++;
-		}
-		i++;
-	}
-	if (mode == 1 && fdf->coordinate.minz + 1 != fdf->coordinate.maxz)
-		fdf->coordinate.maxz += 1;
-	if (mode == 0 && fdf->coordinate.minz + 1 != fdf->coordinate.maxz)
-		fdf->coordinate.maxz -= 1;
 }

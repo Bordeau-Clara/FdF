@@ -6,49 +6,12 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 10:22:08 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:22:32 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 #include <stdio.h>
-
-int	count_words(const char *s, char *c)
-{
-	int	i;
-	int	words;
-	int	k;
-
-	i = 0;
-	words = 0;
-	k = 0;
-	while (s[i])
-	{
-		if (s[i] == c[0] || s[i] == c[1])
-			k = 0;
-		else if (k == 0)
-		{
-			words++;
-			k = 1;
-		}
-		i++;
-	}
-	return (words);
-}
-
-static int	isbase(char c, char *base)
-{
-	int	i;
-
-	i = 0;
-	while (i < base[i])
-	{
-		if (c == base[i])
-			return (i);
-	i++;
-	}
-	return (-1);
-}
 
 void	calloc_rows_set_max(t_list *lst, t_data *fdf)
 {
@@ -64,6 +27,31 @@ void	calloc_rows_set_max(t_list *lst, t_data *fdf)
 		ft_exit(fdf, lst, FAILURE);
 }
 
+int	color(t_data *fdf, char *nb, int i, int j)
+{
+	fdf->coordinate.map[i][j].color = ft_atoi_base(nb, "0123456789ABCDEF");
+	fdf->coordinate.map[i][j].colorh = ft_atoi_base(nb, "0123456789abcdef");
+	if (fdf->coordinate.map[i][j].colorh > fdf->coordinate.map[i][j].color)
+		fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
+	else
+		fdf->coordinate.map[i][j].color = 0x810202;
+	return (3);
+}
+
+// int	skip_caract_set_color(t_data *fdf, char *s, int i, int j)
+// {
+// 	int	k;
+// 	while (ft_isdigit((s[k]) || s[k] == '-')
+// 		k++;
+// 	if (s[k] == ',')
+// 		k += color(fdf, &current->s[k + 3], i, j);
+// 	while (isbase(current->s[k], "0123456789ABCDEFabcdef") != -1)
+// 		k++;
+// 	while ((current->s)[k] == ' ' || (current->s)[k] == '\n')
+// 		k++;
+// 	return (k);
+// }
+
 void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 {
 	int		k;
@@ -78,29 +66,19 @@ void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 			ft_exit(fdf, lst, FAILURE);
 		j = 0;
 		k = 0;
-		while (j < count_words(lst->s, " \n"))
+		while (j < fdf->coordinate.maxx)
 		{
 			(fdf->coordinate.map)[i][j].x = j;
 			(fdf->coordinate.map)[i][j].y = i;
 			(fdf->coordinate.map)[i][j].z = ft_atoi(&(current->s)[k]);
-			while (ft_isdigit((current->s)[k]) || current->s[k] == '-')
-				k++;
 			if ((!i && !j) || (fdf->coordinate.map[i][j].z > fdf->coordinate.maxz))
 				fdf->coordinate.maxz = fdf->coordinate.map[i][j].z;
 			if ((!i && !j) || (fdf->coordinate.map[i][j].z < fdf->coordinate.minz))
 				fdf->coordinate.minz = fdf->coordinate.map[i][j].z;
+			while (ft_isdigit((current->s)[k]) || current->s[k] == '-')
+				k++;
 			if (current->s[k] == ',')
-			{
-				k += 3;
-				fdf->coordinate.map[i][j].color = ft_atoi_base(&current->s[k], "0123456789ABCDEF");
-				fdf->coordinate.map[i][j].colorh = ft_atoi_base(&current->s[k], "0123456789abcdef");
-				if (fdf->coordinate.map[i][j].colorh > fdf->coordinate.map[i][j].color)
-					fdf->coordinate.map[i][j].color = fdf->coordinate.map[i][j].colorh;
-			}
-			else
-			{
-				fdf->coordinate.map[i][j].color = 0x810202;
-			}
+				k += color(fdf, &current->s[k + 3], i, j);
 			while (isbase(current->s[k], "0123456789ABCDEFabcdef") != -1)
 				k++;
 			while ((current->s)[k] == ' ' || (current->s)[k] == '\n')
@@ -109,39 +87,6 @@ void	fill_coordinate(t_list *lst, t_data *fdf, int i, int j)
 		}
 		i++;
 		current = current->next;
-	}
-}
-
-void	liberator_int_tab(t_z **tab, int line)
-{
-	int	i;
-
-	i = 0;
-	while (i < line)
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
-void	print_int_tab(t_z **tab, int y, int x)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < y)
-	{
-		j = 0;
-		while (j < x)
-		{
-			printf("%.0f, ", tab[i][j].z);
-			// printf("%x ", tab[i][j].color);
-			j++;
-		}
-		printf("\n");
-		i++;
 	}
 }
 
