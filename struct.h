@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:02:53 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/20 14:55:11 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 08:53:13 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ typedef struct s_z
 	float	y;
 	float	z;
 	float	polar[2];
-	int	color;
-	int	colorh;
+	int		color;
+	int		colorh;
 }	t_z;
 
 typedef struct s_coordinate
@@ -82,6 +82,7 @@ typedef struct s_point
 {
 	float	x;
 	float	y;
+	int		paint;
 	int		color;
 }	t_point;
 

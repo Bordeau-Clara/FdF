@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/20 18:41:22 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 08:59:53 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	basics(int keycode, t_data *fdf)
 	}
 	if (keycode == KEY_R)
 	{
+		fdf->mode = 0;
 		restore(fdf);
 		put_new_img(fdf);
 	}

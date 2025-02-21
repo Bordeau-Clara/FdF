@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:17:22 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 07:59:04 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 08:56:05 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@ void	spherize(t_data *fdf, int x, int y)
 	fdf->coordinate.map[y][x].z = (fdf->circle.radius + fdf->coordinate.map[y][x].z) * \
 		cos(fdf->coordinate.map[y][x].polar[LAT]);
 }
+
+
+// void	hidden(t_data *fdf, int x, int y)
+// {
+// 	if(fdf->coordinate.map[y][x].z < 0)
+// 		fdf->coordinate.map[y][x].paint = 0;
+// 	else
+// 		fdf->coordinate.map[y][x].paint = 1;
+// }
 
 void	go_polar(t_data *fdf)
 {
@@ -49,32 +58,3 @@ void	go_polar(t_data *fdf)
 		y++;
 	}
 }
-
-// void	ft_draw_square2(t_data *fdf, t_coordinate coordinate, int x, int y)
-// {
-// 	t_point	next;
-// 	t_point	current;
-//
-// 	set_angle(fdf);
-// 	fdf->offset = set_offset(*fdf);
-// 	while (x < coordinate.maxx)
-// 	{
-// 		y = 0;
-// 		while (y < coordinate.maxy)
-// 		{
-// 			current = project_stereographic(*fdf, x, y);
-// 			if (x < coordinate.maxx - 1)
-// 			{
-// 				next = project_stereographic(*fdf, x + 1, y);
-// 				ft_draw_line(fdf, current, next);
-// 			}
-// 			if (y < coordinate.maxy - 1)
-// 			{
-// 				next = project_stereographic(*fdf, x, y + 1);
-// 				ft_draw_line(fdf, current, next);
-// 			}
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// }

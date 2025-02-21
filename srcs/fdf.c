@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:45 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/20 18:45:32 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/21 08:55:45 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ t_point	project_iso_bonus(t_data fdf, int x, int y)
 	temp = rot.x;
 	rot.x = fdf.angle.cosz * rot.x - fdf.angle.sinz * rot.y;
 	rot.y = fdf.angle.sinz * temp + fdf.angle.cosz * rot.y;
+	result.paint = 1;
 	if (fdf.mode == 2)
 	{
+		if (rot.z < 0)
+			result.paint = 0;
 		result.x = round(fdf.translatex + 900 + (fdf.step * rot.x));
 		result.y = round(fdf.translatey + 540 + (fdf.step * rot.y));
 	}
@@ -62,7 +65,8 @@ void	line(t_data *fdf, t_point current, int nx, int ny)
 	t_point	next;
 
 	next = project_iso_bonus(*fdf, nx, ny);
-	ft_draw_line(fdf, current, next);
+	if (next.paint == 1)
+		ft_draw_line(fdf, current, next);
 }
 
 void	ft_draw_fdf(t_data *fdf, t_coordinate coordinate, int x, int y)
@@ -77,15 +81,18 @@ void	ft_draw_fdf(t_data *fdf, t_coordinate coordinate, int x, int y)
 		while (y < coordinate.maxy)
 		{
 			current = project_iso_bonus(*fdf, x, y);
-			if (x < coordinate.maxx - 1)
-				line(fdf, current, x + 1, y);
-			if (y < coordinate.maxy - 1)
-				line(fdf, current, x, y + 1);
-			if (x < coordinate.maxx - 1 && y < coordinate.maxy - 1
-				&& fdf->mode == 1)
-				line(fdf, current, x + 1, y + 1);
-			if (y < coordinate.maxy - 1 && x - 1 >= 0 && fdf->mode == 1)
-				line(fdf, current, x - 1, y + 1);
+			if (current.paint == 1)
+			{
+				if (x < coordinate.maxx - 1)
+					line(fdf, current, x + 1, y);
+				if (y < coordinate.maxy - 1)
+					line(fdf, current, x, y + 1);
+				if (x < coordinate.maxx - 1 && y < coordinate.maxy - 1
+					&& fdf->mode == 1)
+					line(fdf, current, x + 1, y + 1);
+				if (y < coordinate.maxy - 1 && x - 1 >= 0 && fdf->mode == 1)
+					line(fdf, current, x - 1, y + 1);
+			}
 			y++;
 		}
 		x++;
