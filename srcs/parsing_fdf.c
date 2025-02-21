@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 08:53:20 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:28:59 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	isbase(char c, char *base)
 
 void	calloc_rows_set_max(t_list *lst, t_data *fdf)
 {
+	fdf->shpere = 0;
 	fdf->coordinate.maxy = ft_lstsize(lst);
 	if (!fdf->coordinate.maxy)
 		ft_exit(fdf, lst, FAILURE);

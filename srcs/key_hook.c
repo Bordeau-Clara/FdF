@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 08:59:53 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:45:09 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	key_hook(int keycode, t_data *fdf)
 	rotate(keycode, fdf);
 	if (keycode == KEY_C)
 	{
-		fdf->mode = 2;
+		fdf->shpere = 1;
+		set_angle2(fdf, -PI / 2, 0, 0);
 		go_polar(fdf);
 		put_new_img(fdf);
 	}
@@ -61,15 +62,17 @@ void	basics(int keycode, t_data *fdf)
 	if (keycode == KEY_R)
 	{
 		fdf->mode = 0;
+		fdf->shpere = 0;
+		set_angle2(fdf, PI / 4, -PI / 6, 0);
 		restore(fdf);
 		put_new_img(fdf);
 	}
 	if (keycode == KEY_M)
 	{
 		if (fdf->mode < 1)
-		fdf->mode++;
+			fdf->mode++;
 		else
-			fdf->mode--;
+			fdf->mode = 0;
 		put_new_img(fdf);
 	}
 	if (keycode == KEY_ESC

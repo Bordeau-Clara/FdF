@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:45 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 08:55:45 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:41:26 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_point	project_iso_bonus(t_data fdf, int x, int y)
 	rot.x = fdf.angle.cosz * rot.x - fdf.angle.sinz * rot.y;
 	rot.y = fdf.angle.sinz * temp + fdf.angle.cosz * rot.y;
 	result.paint = 1;
-	if (fdf.mode == 2)
+	if (fdf.shpere == 1)
 	{
 		if (rot.z < 0)
 			result.paint = 0;

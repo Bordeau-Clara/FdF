@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:02:53 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 08:53:13 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:26:59 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_data
 	int				translatex;
 	int				translatey;
 	int				mode;
+	int				shpere;
 	t_circle		circle;
 }	t_data;
 
