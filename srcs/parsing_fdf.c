@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:26 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/22 09:44:56 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:04:22 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	dup_map(char *file, t_data *fdf)
 
 	lst = NULL;
 	fd = open(file, O_RDONLY);
-	while (1)
+	while (TRUE)
 	{
 		s = get_next_line(fd);
 		if (!s)

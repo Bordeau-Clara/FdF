@@ -6,7 +6,7 @@
 /*   By: cbordeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:10:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2024/11/26 10:49:57 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:11:44 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 21
+#  define BUFFER_SIZE 100000
 # endif
 
 char	*get_next_line(int fd);
