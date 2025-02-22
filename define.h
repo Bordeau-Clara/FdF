@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:05:39 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:18:13 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 14:41:19 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define Z 2
 # define TRUE 1
 # define PI 3.14159265358979323846
+# define WINX 1800
+# define WINY 1080
 
 # define KEY_ESC         65307
 # define KEY_W           119

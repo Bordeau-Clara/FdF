@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 08:38:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/22 09:38:35 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 14:26:00 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			ft_exit(t_data *fdf, t_list *lst, int err_code);
 int				exit_fdf(t_data *fdf);
 
 //colors
-int				interpolate_color(int color1, int color2, float t);
+int				interpolate_color(int color1, int color2, int length, int step);
 int				find_color(t_data fdf, int base, int final, t_offset p);
 void			change_color(t_data *fdf, int base, int final);
 void			earth_color(t_data *fdf);
@@ -80,7 +80,7 @@ int				distance(int a, int b);
 t_offset		set_offset(t_data fdf);
 
 //utils_2
-void	dup_fdf(t_data *fdf, int i, int j);
+void			dup_fdf(t_data *fdf, int i, int j);
 void			restore(t_data *fdf);
 void			move_z(t_data *fdf, int mode);
 void			z_to_zero(t_data *fdf);
