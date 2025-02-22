@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:08:30 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 19:30:26 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 09:32:42 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	put_new_img(t_data *fdf)
 	fdf->img = mlx_new_image(fdf->mlx, 1800, 1080);
 	fdf->addr = mlx_get_data_addr
 		(fdf->img, &fdf->bits_per_pixel, &fdf->line_lenght, &fdf->endian);
-	ft_draw_fdf(fdf, fdf->coordinate, 0, 0);
+	ft_draw_fdf(fdf, 0, 0);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 }
 
@@ -46,7 +46,7 @@ void	basics(int keycode, t_data *fdf)
 {
 	if (keycode == KEY_SPACE)
 	{
-		ft_draw_fdf(fdf, fdf->coordinate, 0, 0);
+		ft_draw_fdf(fdf, 0, 0);
 		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 	}
 	if (keycode == KEY_R)

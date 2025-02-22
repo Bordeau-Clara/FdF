@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 12:03:47 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:53:06 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 09:25:56 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ t_point	project_iso_bonus(t_data fdf, int x, int y)
 	t_vector	rot;
 	float		temp;
 
-	rot.y = fdf.angle.cosx * fdf.coordinate.map[y][x].y - \
-		fdf.angle.sinx * fdf.coordinate.map[y][x].z;
-	rot.z = fdf.angle.sinx * fdf.coordinate.map[y][x].y + \
-		fdf.angle.cosx * fdf.coordinate.map[y][x].z;
-	rot.x = (fdf.angle.cosy) * fdf.coordinate.map[y][x].x + \
+	rot.y = fdf.angle.cosx * fdf.coordinate[y][x].y - \
+		fdf.angle.sinx * fdf.coordinate[y][x].z;
+	rot.z = fdf.angle.sinx * fdf.coordinate[y][x].y + \
+		fdf.angle.cosx * fdf.coordinate[y][x].z;
+	rot.x = (fdf.angle.cosy) * fdf.coordinate[y][x].x + \
 		fdf.angle.siny * rot.z;
-	rot.z = -fdf.angle.siny * fdf.coordinate.map[y][x].x + \
+	rot.z = -fdf.angle.siny * fdf.coordinate[y][x].x + \
 		fdf.angle.cosy * rot.z;
 	temp = rot.x;
 	rot.x = fdf.angle.cosz * rot.x - fdf.angle.sinz * rot.y;
 	rot.y = fdf.angle.sinz * temp + fdf.angle.cosz * rot.y;
 	result = find_final_point(fdf, rot);
-	result.color = fdf.coordinate.map[y][x].color;
+	result.color = fdf.coordinate[y][x].color;
 	return (result);
 }
 

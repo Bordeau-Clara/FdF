@@ -6,38 +6,35 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:16:00 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:45:20 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 08:42:05 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-t_coordinate	dup_fdf(t_coordinate coordinate, int i, int j)
+void	dup_fdf(t_data *fdf, int i, int j)
 {
-	t_coordinate	save;
-
-	save.maxx = coordinate.maxx;
-	save.maxy = coordinate.maxy;
-	save.maxz = coordinate.maxz;
-	save.minz = coordinate.minz;
-	save.map = malloc(save.maxy * sizeof(t_z *));
-	if (!save.map)
-		return (save);
-	while (++i < coordinate.maxy)
+	fdf->reset.maxx = fdf->maxx;
+	fdf->reset.maxy = fdf->maxy;
+	fdf->reset.maxz = fdf->maxz;
+	fdf->reset.minz = fdf->minz;
+	fdf->save = malloc(fdf->maxy * sizeof(t_coordinate *));
+	if (!fdf->save)
+		return ;
+	while (++i < fdf->maxy)
 	{
 		j = -1;
-		save.map[i] = malloc(save.maxx * sizeof(t_z));
-		if (!save.map[i])
-			return (liberator_int_tab(save.map, i), save);
-		while (++j < coordinate.maxx)
+		fdf->save[i] = malloc(fdf->maxx * sizeof(t_coordinate));
+		if (!fdf->save[i])
+			return (liberator_int_tab(fdf->save, i));
+		while (++j < fdf->maxx)
 		{
-			save.map[i][j].x = coordinate.map[i][j].x;
-			save.map[i][j].y = coordinate.map[i][j].y;
-			save.map[i][j].z = coordinate.map[i][j].z;
-			save.map[i][j].color = coordinate.map[i][j].color;
+			fdf->save[i][j].x = fdf->coordinate[i][j].x;
+			fdf->save[i][j].y = fdf->coordinate[i][j].y;
+			fdf->save[i][j].z = fdf->coordinate[i][j].z;
+			fdf->save[i][j].color = fdf->coordinate[i][j].color;
 		}
 	}
-	return (save);
 }
 
 void	restore(t_data *fdf)
@@ -49,19 +46,19 @@ void	restore(t_data *fdf)
 	j = 0;
 	fdf->mode = 0;
 	fdf->offset = set_offset(*fdf);
-	fdf->coordinate.maxx = fdf->save.maxx;
-	fdf->coordinate.maxy = fdf->save.maxy;
-	fdf->coordinate.maxz = fdf->save.maxz;
-	fdf->coordinate.minz = fdf->save.minz;
-	while (i < fdf->save.maxy)
+	fdf->maxx = fdf->reset.maxx;
+	fdf->maxy = fdf->reset.maxy;
+	fdf->maxz = fdf->reset.maxz;
+	fdf->minz = fdf->reset.minz;
+	while (i < fdf->reset.maxy)
 	{
 		j = 0;
-		while (j < fdf->save.maxx)
+		while (j < fdf->reset.maxx)
 		{
-			fdf->coordinate.map[i][j].x = fdf->save.map[i][j].x;
-			fdf->coordinate.map[i][j].y = fdf->save.map[i][j].y;
-			fdf->coordinate.map[i][j].z = fdf->save.map[i][j].z;
-			fdf->coordinate.map[i][j].color = fdf->save.map[i][j].color;
+			fdf->coordinate[i][j].x = fdf->save[i][j].x;
+			fdf->coordinate[i][j].y = fdf->save[i][j].y;
+			fdf->coordinate[i][j].z = fdf->save[i][j].z;
+			fdf->coordinate[i][j].color = fdf->save[i][j].color;
 			j++;
 		}
 		i++;
@@ -74,25 +71,25 @@ void	move_z(t_data *fdf, int mode)
 	int	j;
 
 	i = 0;
-	while (i < fdf->coordinate.maxy)
+	while (i < fdf->maxy)
 	{
 		j = 0;
-		while (j < fdf->coordinate.maxx)
+		while (j < fdf->maxx)
 		{
-			if (fdf->coordinate.map[i][j].z != fdf->coordinate.minz
+			if (fdf->coordinate[i][j].z != fdf->minz
 				&& mode == 1)
-				fdf->coordinate.map[i][j].z += 1;
-			if (fdf->coordinate.map[i][j].z > fdf->coordinate.minz + 1
+				fdf->coordinate[i][j].z += 1;
+			if (fdf->coordinate[i][j].z > fdf->minz + 1
 				&& mode == 0)
-				fdf->coordinate.map[i][j].z -= 1;
+				fdf->coordinate[i][j].z -= 1;
 			j++;
 		}
 		i++;
 	}
-	if (mode == 1 && fdf->coordinate.minz + 1 != fdf->coordinate.maxz)
-		fdf->coordinate.maxz += 1;
-	if (mode == 0 && fdf->coordinate.minz + 1 != fdf->coordinate.maxz)
-		fdf->coordinate.maxz -= 1;
+	if (mode == 1 && fdf->minz + 1 != fdf->maxz)
+		fdf->maxz += 1;
+	if (mode == 0 && fdf->minz + 1 != fdf->maxz)
+		fdf->maxz -= 1;
 }
 
 void	z_to_zero(t_data *fdf)
@@ -101,16 +98,16 @@ void	z_to_zero(t_data *fdf)
 	int	j;
 
 	i = 0;
-	while (i < fdf->coordinate.maxy)
+	while (i < fdf->maxy)
 	{
 		j = 0;
-		while (j < fdf->coordinate.maxx)
+		while (j < fdf->maxx)
 		{
-			if (fdf->coordinate.map[i][j].z > fdf->coordinate.minz)
-				fdf->coordinate.map[i][j].z = fdf->coordinate.minz + 1;
+			if (fdf->coordinate[i][j].z > fdf->minz)
+				fdf->coordinate[i][j].z = fdf->minz + 1;
 			j++;
 		}
 		i++;
 	}
-	fdf->coordinate.maxz = fdf->coordinate.minz + 1;
+	fdf->maxz = fdf->minz + 1;
 }

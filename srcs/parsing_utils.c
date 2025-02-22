@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 12:24:41 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 12:29:17 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 09:36:38 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	isbase(char c, char *base)
 	return (-1);
 }
 
-void	liberator_int_tab(t_z **tab, int line)
+void	liberator_int_tab(t_coordinate **tab, int line)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:06:45 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 19:30:58 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 09:52:19 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,28 @@ void	line(t_data *fdf, t_point current, int nx, int ny)
 		ft_draw_line(fdf, current, next);
 }
 
-void	ft_draw_fdf(t_data *fdf, t_coordinate coordinate, int x, int y)
+void	ft_draw_fdf(t_data *fdf, int x, int y)
 {
 	t_point	current;
 
 	set_angle(fdf);
 	fdf->offset = set_offset(*fdf);
-	while (x < coordinate.maxx)
+	while (x < fdf->maxx)
 	{
 		y = -1;
-		while (++y < coordinate.maxy)
+		while (++y < fdf->maxy)
 		{
 			current = project_iso_bonus(*fdf, x, y);
 			if (current.paint == 1)
 			{
-				if (x < coordinate.maxx - 1)
+				if (x < fdf->maxx - 1)
 					line(fdf, current, x + 1, y);
-				if (y < coordinate.maxy - 1)
+				if (y < fdf->maxy - 1)
 					line(fdf, current, x, y + 1);
-				if (x < coordinate.maxx - 1 && y < coordinate.maxy - 1
+				if (x < fdf->maxx - 1 && y < fdf->maxy - 1
 					&& fdf->mode == 1)
 					line(fdf, current, x + 1, y + 1);
-				if (y < coordinate.maxy - 1 && x - 1 >= 0 && fdf->mode == 1)
+				if (y < fdf->maxy - 1 && x - 1 >= 0 && fdf->mode == 1)
 					line(fdf, current, x - 1, y + 1);
 			}
 		}
@@ -81,17 +81,17 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return (-1);
-	fdf.save.map = NULL;
-	fdf.coordinate.map = NULL;
+	fdf.save = NULL;
+	fdf.coordinate = NULL;
 	init_fdf(&fdf);
 	dup_map(av[1], &fdf);
-	fdf.save = dup_fdf(fdf.coordinate, -1, -1);
-	if (!fdf.save.map)
+	dup_fdf(&fdf, -1, -1);
+	if (!fdf.save)
 		ft_exit(&fdf, NULL, FAILURE);
 	display_controls(&fdf);
 	mlx_hook(fdf.win, 2, 1L << 0, key_hook, &fdf);
 	mlx_mouse_hook(fdf.win, mouse_press, &fdf);
 	mlx_hook(fdf.win, 17, 1L << 0, exit_fdf, &fdf);
 	mlx_loop(fdf.mlx);
-	liberator_int_tab(fdf.coordinate.map, fdf.coordinate.maxy);
+	liberator_int_tab(fdf.coordinate, fdf.maxy);
 }

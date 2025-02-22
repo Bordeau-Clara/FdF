@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:03:24 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 19:28:23 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 09:28:46 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,6 @@ void	display_controls(t_data *fdf)
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 220, color, "    0 1 2 3 4 5 c");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 240, color, " change colors :");
 	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    Z X V");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 240, color, " change mode :");
-	mlx_string_put(fdf->mlx, fdf->win, x, y + 260, color, "    M");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 280, color, " change mode :");
+	mlx_string_put(fdf->mlx, fdf->win, x, y + 300, color, "    M");
 }

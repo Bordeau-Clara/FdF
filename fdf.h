@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 08:38:37 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:23:02 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 09:38:35 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 //fdf
 void			line(t_data *fdf, t_point current, int nx, int ny);
-void			ft_draw_fdf(t_data *img, t_coordinate coordinate, int x, int y);
+void			ft_draw_fdf(t_data *img, int x, int y);
 void			init_fdf(t_data *fdf);
 
 //rotation
@@ -57,7 +57,7 @@ void			dup_map(char *file, t_data *fdf);
 //parsing_utils
 int				count_words(const char *s, char *c);
 int				isbase(char c, char *base);
-void			liberator_int_tab(t_z **tab, int line);
+void			liberator_int_tab(t_coordinate **tab, int line);
 //void			print_int_tab(t_z **tab, int y, int x);
 
 //exit
@@ -80,7 +80,7 @@ int				distance(int a, int b);
 t_offset		set_offset(t_data fdf);
 
 //utils_2
-t_coordinate	dup_fdf(t_coordinate coordinate, int i, int j);
+void	dup_fdf(t_data *fdf, int i, int j);
 void			restore(t_data *fdf);
 void			move_z(t_data *fdf, int mode);
 void			z_to_zero(t_data *fdf);

@@ -6,30 +6,20 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:02:53 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 09:26:59 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 09:45:04 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-typedef struct s_z
+typedef struct s_coordinate
 {
 	float	x;
 	float	y;
 	float	z;
 	float	polar[2];
 	int		color;
-	int		colorh;
-}	t_z;
-
-typedef struct s_coordinate
-{
-	t_z	**map;
-	int	maxx;
-	int	maxy;
-	int	minz;
-	int	maxz;
 }	t_coordinate;
 
 typedef struct s_angle
@@ -55,7 +45,15 @@ typedef struct s_circle
 {
 	float	radius;
 	float	step[2];
-}	t_circle ;
+}t_circle;
+
+typedef struct s_save
+{
+	int				maxx;
+	int				maxy;
+	int				minz;
+	int				maxz;
+}t_save;
 
 typedef struct s_data
 {
@@ -67,8 +65,9 @@ typedef struct s_data
 	void			*mlx;
 	void			*win;
 
-	t_coordinate	coordinate;
-	t_coordinate	save;
+	t_coordinate	**coordinate;
+	t_coordinate	**save;
+	t_save			reset;
 	int				step;
 	t_angle			angle;
 	t_offset		offset;
@@ -77,6 +76,11 @@ typedef struct s_data
 	int				mode;
 	int				shpere;
 	t_circle		circle;
+
+	int				maxx;
+	int				maxy;
+	int				minz;
+	int				maxz;
 }	t_data;
 
 typedef struct s_point

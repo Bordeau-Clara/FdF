@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:54:55 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/19 08:16:16 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 08:42:45 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_offset	set_offset(t_data fdf)
 	t_offset	offset;
 	t_point		middle;
 
-	middle = project_3d_to_2d(fdf.coordinate.maxx / 2, fdf.coordinate.maxy / \
-				2, distance(fdf.coordinate.maxz, fdf.coordinate.minz), fdf);
+	middle = project_3d_to_2d(fdf.maxx / 2, fdf.maxy / \
+				2, distance(fdf.maxz, fdf.minz), fdf);
 	offset.x = 900 - round(middle.x);
 	offset.y = 540 - round(middle.y);
 	return (offset);

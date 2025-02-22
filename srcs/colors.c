@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:56:42 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/21 18:14:07 by cbordeau         ###   LAUSANNE.ch       */
+/*   Updated: 2025/02/22 09:59:54 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	find_color(t_data fdf, int base, int final, t_offset p)
 	t_rgb	color;
 	float	ratio;
 
-	if (fdf.coordinate.map[p.x][p.y].z <= fdf.coordinate.minz)
+	if (fdf.coordinate[p.x][p.y].z <= fdf.minz)
 		return (base);
-	if (fdf.coordinate.map[p.x][p.y].z >= fdf.coordinate.maxz)
+	if (fdf.coordinate[p.x][p.y].z >= fdf.maxz)
 		return (final);
-	ratio = (float)(fdf.coordinate.map[p.x][p.y].z - fdf.coordinate.minz) / \
-		(fdf.coordinate.maxz - fdf.coordinate.minz);
+	ratio = (float)(fdf.coordinate[p.x][p.y].z - fdf.minz) / \
+		(fdf.maxz - fdf.minz);
 	colora.r = (base >> 16) & 0xFF;
 	colora.g = (base >> 8) & 0xFF;
 	colora.b = base & 0xFF;
@@ -81,15 +81,15 @@ void	change_color(t_data *fdf, int base, int final)
 	t_offset	p;
 
 	p.x = 0;
-	while (p.x < fdf->coordinate.maxy)
+	while (p.x < fdf->maxy)
 	{
 		p.y = 0;
-		while (p.y < fdf->coordinate.maxx)
+		while (p.y < fdf->maxx)
 		{
-			if (fdf->coordinate.map[p.x][p.y].z == fdf->coordinate.minz)
-				fdf->coordinate.map[p.x][p.y].color = base;
+			if (fdf->coordinate[p.x][p.y].z == fdf->minz)
+				fdf->coordinate[p.x][p.y].color = base;
 			else
-				fdf->coordinate.map[p.x][p.y].color
+				fdf->coordinate[p.x][p.y].color
 					= find_color(*fdf, base, final, p);
 			p.y++;
 		}
@@ -99,34 +99,33 @@ void	change_color(t_data *fdf, int base, int final)
 void	earth_color(t_data *fdf)
 {
 	t_offset	p;
+	int			z;
 
 	p.y = 0;
-	while (p.y < fdf->coordinate.maxy)
+	while (p.y < fdf->maxy)
 	{
 		p.x = 0;
-		while (p.x < fdf->coordinate.maxx)
+		while (p.x < fdf->maxx)
 		{
-			int z = fdf->coordinate.map[p.y][p.x].z;
-
+			z = fdf->coordinate[p.y][p.x].z;
 			if (z <= -10)
-					fdf->coordinate.map[p.y][p.x].color = 0x00008B;
+					fdf->coordinate[p.y][p.x].color = 0x00008B;
 			else if (z > -10 && z <= 0)
-					fdf->coordinate.map[p.y][p.x].color = 0x1E90FF;
+					fdf->coordinate[p.y][p.x].color = 0x1E90FF;
 			else if (z > 0 && z <= 5)
-					fdf->coordinate.map[p.y][p.x].color = 0xF4A460;
+					fdf->coordinate[p.y][p.x].color = 0xF4A460;
 			else if (z > 5 && z <= 20)
-					fdf->coordinate.map[p.y][p.x].color = 0x00FF00;
+					fdf->coordinate[p.y][p.x].color = 0x00FF00;
 			else if (z > 20 && z <= 50)
-					fdf->coordinate.map[p.y][p.x].color = 0x008000;
+					fdf->coordinate[p.y][p.x].color = 0x008000;
 			else if (z > 50 && z <= 100)
-					fdf->coordinate.map[p.y][p.x].color = 0x8B4513;
+					fdf->coordinate[p.y][p.x].color = 0x8B4513;
 			else if (z > 100 && z <= 200)
-					fdf->coordinate.map[p.y][p.x].color = 0xA9A9A9;
+					fdf->coordinate[p.y][p.x].color = 0xA9A9A9;
 			else
-					fdf->coordinate.map[p.y][p.x].color = 0xFFFFFF;
+					fdf->coordinate[p.y][p.x].color = 0xFFFFFF;
 			p.x++;
 		}
 		p.y++;
 	}
 }
-
