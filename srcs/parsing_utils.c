@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 12:24:41 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/22 09:36:38 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:59:55 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	liberator_int_tab(t_coordinate **tab, int line)
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (i < line)
 	{
 		free(tab[i]);
