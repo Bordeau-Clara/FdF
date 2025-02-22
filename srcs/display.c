@@ -6,7 +6,7 @@
 /*   By: cbordeau <cbordeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:03:24 by cbordeau          #+#    #+#             */
-/*   Updated: 2025/02/22 15:05:56 by cbordeau         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:37:35 by cbordeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	ft_draw_line(t_data *fdf, t_point current, t_point next)
 //
 // 	step = 0;
 // 	length
-// 		= sqrt((next.x - current.x) * (next.x - current.x) + \
+// 	= sqrt((next.x - current.x) * 
+// 	(next.x - current.x) + 
 // 			(next.y - current.y) * (next.y - current.y));
 // 	dx = abs((int)next.x - (int)current.x);
 // 	dy = abs((int)next.y - (int)current.y);
@@ -105,38 +106,6 @@ void	ft_draw_line(t_data *fdf, t_point current, t_point next)
 // 	my_mlx_pixel_put(fdf, current.x, current.y, current.color);
 // 	my_mlx_pixel_put(fdf, next.x, next.y, next.color);
 // }
-
-//algo qui fonctionne
-//*void ft_draw_line(t_data *data, float x1, float y1, float x2, float y2, int color)*/
-/*void ft_draw_line(t_data *data, int x1, int y1, int x2, int y2, int color1, int color2)
-{
-    int step;
-    int colour;
-    double x, y;
-    double delta_x, delta_y, delta_c;
-
-    delta_x = x2 - x1;
-    delta_y = y2 - y1;
-    delta_c = color2 - color1;
-    step = fmax(fabs(delta_x), fabs(delta_y)); // Utilisation de `fmax` pour éviter des erreurs
-
-    delta_x /= step;
-    delta_y /= step;
-    delta_c /= step;
-
-    x = x1;
-    y = y1;
-    colour = color1;
-
-//attention pas de for	
-    for (int i = 0; i <= step; i++)
-    {
-        my_mlx_pixel_put(data, round(x), round(y), colour);
-        x += delta_x;
-        y += delta_y;
-	colour += delta_c;
-    }
-}*/
 
 void	display_controls(t_data *fdf)
 {
